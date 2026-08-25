@@ -1,6 +1,6 @@
 # Analysis Pipeline for "Sequential cellular fractionation strategy for sensitive profiling of subcellular proteome and phosphoproteome dynamics"
 
-This repository contains the data analysis workflow and R scripts used for processing, quality control, normalization, imputation, differential expression, profile clustering, differential localization, and figure generation for paired **Proteomics** and **Phosphoproteomics** experiments.
+This repository contains the data analysis workflow and R scripts used for processing, quality control, normalization, imputation, differential expression, profile clustering, differential localization, and figure generation for paired subcellular **Proteomics** and **Phosphoproteomics** experiments.
 
 ---
 

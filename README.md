@@ -1,6 +1,6 @@
-# Sub001_U2OS_publish: Spatial Proteomics & Phosphoproteomics Analysis Pipeline
+# Analysis Pipeline for "Sequential cellular fractionation strategy for sensitive profiling of subcellular proteome and phosphoproteome dynamics"
 
-This repository contains the complete analytical workflow and R scripts used for processing, quality control, normalization, imputation, differential expression, profile clustering, spatial movement tracking, and figure generation for paired **Phosphoproteomics** and **Total Proteomics** experiments in U2OS cells.
+This repository contains the data analysis workflow and R scripts used for processing, quality control, normalization, imputation, differential expression, profile clustering, differential localization, and figure generation for paired **Proteomics** and **Phosphoproteomics** experiments.
 
 ---
 

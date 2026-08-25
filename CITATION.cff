@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software or analysis workflow, please cite it as below."
+authors:
+  - family-names: "Stuber"
+    given-names: "Katrin A."
+title: "Analysis Pipeline for "Sequential cellular fractionation strategy for sensitive profiling of subcellular proteome and phosphoproteome dynamics""
+version: 1.0.0
+date-released: 2026-08-25
+url: "https://github.com/Nirtak911/Sub001_U2OS_publish"

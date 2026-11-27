@@ -27,13 +27,19 @@ The pipeline is fully unsupervised: it quantifies changes in the relative distri
 
 ## Requirements
 
-- R 4.5 (the analysis was run with R 4.5.0)
+- **R 4.5.x** (the analysis was run with R 4.5.0). With other R versions (e.g. R 4.6), `renv::restore()` cannot use the recorded package versions; install R 4.5 alongside and select it (RStudio: *Tools → Global Options → General → R version*).
+- **Build tools**, because `renv::restore()` compiles packages for which no pre-built binary of the recorded version is available any more:
+  - Windows: [Rtools 4.5](https://cran.r-project.org/bin/windows/Rtools/rtools45/rtools.html) (check in R with `Sys.which("make")`, which should return a path in the Rtools folder)
+  - macOS: Xcode command line tools (`xcode-select --install`)
+  - Linux: a C/C++/Fortran compiler toolchain (e.g. `r-base-dev` on Debian/Ubuntu)
 - All package versions are recorded in `renv.lock`. To install them into a project library, open the project (`Sub001_U2OS_publish.Rproj`) or start R in the project root and run:
 
 ```r
 install.packages("renv")   # if renv is not installed yet
 renv::restore()
 ```
+
+Answer `y` to install the packages. If renv offers to install the latest available versions of packages that failed, answer `n` and check the build tools instead: newer versions would no longer match the environment of the analysis. Installing all packages takes about 30–60 minutes. Run `renv::restore()` in a fresh R session (*Session → Restart R*), because packages that are already loaded cannot be replaced on Windows.
 
 Main packages: tidyverse, protti, limma, DAPAR / imp4p, qvalue, pheatmap, clusterProfiler, org.Hs.eg.db, Rtsne, umap, patchwork.
 

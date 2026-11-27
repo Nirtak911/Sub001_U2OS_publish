@@ -17,7 +17,6 @@ if (interactive()) View(data)
 ## output data------------------
 plot_output <- file.path(data_in,"/Plots/04_3_Profile_plots_cluster_nonimpute.pdf")
 
-if (interactive()) View(selected_markers)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 

@@ -9,6 +9,7 @@ library(Rtsne)
 library(plotly)
 library(viridis)
 library(ggprism)
+library(patchwork)
 library(plotly)
 
 ## Load data---------------------

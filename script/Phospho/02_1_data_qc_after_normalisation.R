@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -12,7 +15,7 @@ library(ggprism)
 input <- file.path(data_in, "/02_loess_data_log2.csv")
 
 data <- read_csv(input)
-View(data)
+if (interactive()) View(data)
 ## output data------------------
 count_output <-  file.path(data_in, "/02_counts.tsv")
 plot_output<- file.path(data_in, "/Plots/02_1_QC_loess.pdf")
@@ -32,7 +35,7 @@ t1_protein_IDs <- qc_ids(
   title = "Protein identifications per sample",
   plot = FALSE
 )
-View(t1_protein_IDs)
+if (interactive()) View(t1_protein_IDs)
 
 # add cell line column
 t1_protein_IDs$cell_line <- map_chr(str_split(t1_protein_IDs$r_condition, "_"), 1)
@@ -61,7 +64,7 @@ for (df in t1_protein_IDs_list) {
     stat_summary(geom = "errorbar", fun.data = mean_sdl, fun.args = list(mult = 1), 
                  width = 0.2, colour = "black", linewidth = 0.9) + 
     geom_jitter(aes(colour = treatment), width = 0.2, size = 4, alpha = 0.6) + 
-    facet_wrap(~ fraction, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~ fraction, scales = "free_x", nrow = 1, strip.position = "bottom") +
     scale_x_discrete(labels = function(x) df$fraction[match(x, df$r_condition)]) +
     scale_y_continuous(limits = c(0, 20000), expand = c(0, 0)) +
     theme_prism(base_size = 14) +

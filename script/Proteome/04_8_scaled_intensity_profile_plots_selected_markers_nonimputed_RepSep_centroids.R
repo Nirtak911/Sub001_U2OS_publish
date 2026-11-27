@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,14 +13,14 @@ library(patchwork)
 ## Load data---------------------
 input <- file.path(data_in,"/04_scale_not_abs_loess_data_log2.csv")
 data <- read_csv(input)
-input2 <- "raw/Subcell_markers_selected.csv"
+input2 <- file.path(annot_dir, "Subcell_markers_selected.csv")
 selected_markers <- read_protti(input2)
 
 ## output data------------------
 plot_output <- file.path(data_in,"/Plots/04_8_Profile_plots_selected_markers_CTRLalone_nonimpute_RepSep_centroids.pdf")
 
 
-View(data)
+if (interactive()) View(data)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
@@ -48,11 +51,11 @@ data <- data %>% filter(treatment == "CTRL")
 colnames(selected_markers)[colnames(selected_markers) == "uniprot_id"] <- "pg_protein_groups"
 # Add deeploc data
 data_select <- data %>% left_join(selected_markers, by = "pg_protein_groups")
-View(data_select)
+if (interactive()) View(data_select)
 
 # Filter for each deeploc localisation the top100
 data_select <- data_select %>% filter(!is.na(hsap_location_marker))
-View(data_select)
+if (interactive()) View(data_select)
 
 ## Profile plots of scaled intensity data---------------------
 # split dataset by unique entries in deeploc_single

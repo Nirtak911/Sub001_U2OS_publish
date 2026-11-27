@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,7 +13,7 @@ library(stringi)
 ## Load data---------------------
 input <- file.path(raw_data, "20250220_171101_PTM Report_normal_KS (Normal).tsv")
 data <- read_protti(input)
-View(data)
+if (interactive()) View(data)
 
 uniprot <- fetch_uniprot(
   unique(data$ptm_protein_id),
@@ -62,7 +65,7 @@ data_filter <- data_filter %>%
 
 #log2 transform PTM Quantity column 
 data_filter$log2_ptm_quantity <- log2(data_filter$ptm_quantity)
-View(data_filter)
+if (interactive()) View(data_filter)
 
 ## Localisation prob filtering---------------------------------------------------
 #filter data for PTM localisation probability
@@ -74,18 +77,18 @@ loc_prob_filter <- data_filter %>%
 loc_prob_filter$protein_id <- map_chr(str_split(loc_prob_filter$ptm_collapse_key, "_"), 1)
 loc_prob_filter <- loc_prob_filter %>% 
   left_join(uniprot, by = c("protein_id" = "accession")) %>% 
-  rename(gene_name = gene_primary, protein_name = protein_name)
+  dplyr::rename(gene_name = gene_primary, protein_name = protein_name)
 
 # Create gene_PTM_key
 loc_prob_filter$phosphosite <- map_chr(str_split(loc_prob_filter$ptm_collapse_key, "_"), 2)
 loc_prob_filter$multi <- map_chr(str_split(loc_prob_filter$ptm_collapse_key, "_"), 3)
 loc_prob_filter$gene_PTM_key <- paste(loc_prob_filter$gene_name, loc_prob_filter$phosphosite, loc_prob_filter$multi, sep = "_")
 
-View(loc_prob_filter)
+if (interactive()) View(loc_prob_filter)
 
 # Identify rows with the exact same value in the log2_ptm_quantity column
 loc_prob_filter$dup <- duplicated(loc_prob_filter$log2_ptm_quantity) | duplicated(loc_prob_filter$log2_ptm_quantity, fromLast = TRUE)
-View(loc_prob_filter)
+if (interactive()) View(loc_prob_filter)
 
 # data_filter matrix
 data_filter_matrix <- loc_prob_filter %>% 
@@ -93,13 +96,13 @@ data_filter_matrix <- loc_prob_filter %>%
   pivot_wider(names_from = sample, 
               values_from = log2_ptm_quantity,
               values_fn = list(log2_ptm_quantity = ~ mean(.x, na.rm = TRUE)))
-View(data_filter_matrix)
+if (interactive()) View(data_filter_matrix)
 
 # get metadata
 meta_data <- loc_prob_filter %>% 
   dplyr::select(sample, cell_line, treatment, fraction, r_replicate, r_condition, r_file_name) %>%
   distinct()
-View(meta_data)
+if (interactive()) View(meta_data)
 
 # get pg_genes and corresponding pg_protein_groups
 genes <- loc_prob_filter %>% 
@@ -114,7 +117,7 @@ data_filter_output <- data_filter_matrix %>%
                       left_join(meta_data, by = "sample") %>%
                       mutate(ptm_quantity = 2^log2_ptm_quantity) %>%
                       left_join(genes, by = "ptm_collapse_key")
-View(data_filter_output)
+if (interactive()) View(data_filter_output)
 
 ##calculate and plot CVs
 #CV table
@@ -125,7 +128,7 @@ t1_CV <- qc_cvs(
   intensity = ptm_quantity,
   plot = FALSE
 )
-View(t1_CV)
+if (interactive()) View(t1_CV)
 
 ##plot identifications per sample
 #IDs per sample table
@@ -138,7 +141,7 @@ t1_protein_IDs <- qc_ids(
   title = "Protein identifications per sample",
   plot = FALSE
 )
-View(t1_protein_IDs)
+if (interactive()) View(t1_protein_IDs)
 
 
 ## Split data frame by cell line------------------------------

@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -11,7 +14,7 @@ genes <- file.path(data_in,"01_genes.csv")
 data <- read_protti(input)
 meta <- read_csv(meta)
 genes <- read_csv(genes)
-View(data) # Commenting out for execution flow
+if (interactive()) View(data) # Commenting out for execution flow
 
 ## output data  ---------------------------
 diff_output <- file.path(data_in,"/05_0_diff_data_limma_dapar_impute_complete_group_omnibus.csv")
@@ -249,7 +252,7 @@ limma_result <- limma_result %>%
   filter(!is.na(diff), !is.na(adj_pval_limma)) %>%
   left_join(genes, by = c("pg_protein_groups" = "pg_protein_groups"))
 limma_result %>% count(Contrast_Type)
-View(limma_result)
+if (interactive()) View(limma_result)
 
 ## Save data ---------------------------
 write_csv(limma_result, diff_output)

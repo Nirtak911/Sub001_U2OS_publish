@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 # Load libraries
 library(tidyverse)
 library(protti)
@@ -23,7 +26,7 @@ plot_output_combined <- file.path(data_in, "Plots/03_2_mean_intensity_barplot_se
 
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                   "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                   "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                    "Frac5" = "#56B4E9", "Frac6" = "#0072B2",
                    "NA" = "lightgrey",
                    "Cytoplasm" = "#33A02C",
@@ -49,29 +52,35 @@ custom_theme <- theme(
 )
 
 data$normalised_intensity <- 2^(data$normalised_intensity_log2)
-View(data)
+if (interactive()) View(data)
 
 # sort the treatments for the plot in custom order
 data <- data %>%
   mutate(treatment = factor(treatment, levels = c("CTRL", "Anis", "p38", "Zaki")))
 
-# generel abundance change
+# helper: exact gene match, also within protein groups like "A;B"
+match_genes <- function(x, genes) {
+  pattern <- paste0("(^|;)(", paste(genes, collapse = "|"), ")(;|$)")
+  str_detect(x, pattern)
+}
+
+# general abundance change
 selected_genes_ab <- data %>%
-  filter(str_detect(pg_genes, "JUND|MAPK14|LARP1|TRIM28|TRIM28|STAT1|RB1")) %>%
+  filter(match_genes(pg_genes, c("JUND", "STAT1"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_ab)
 
-# distribution change due to abuncdance change
+# distribution change due to abundance change
 selected_genes_dis <- data %>%
-  filter(str_detect(pg_genes, "LARP1|LMNB1|CENPF|NONO|IGHMBP2|RPS9|SUN1|ITPRIPL2")) %>%
+  filter(match_genes(pg_genes, c("LARP1", "IGHMBP2", "RPS9"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_dis)
 
-# real localisation change
+# distribution change
 selected_genes_loc <- data %>%
-  filter(str_detect(pg_genes, "NUMP|LMNA|NUMBL|GGT7|EFNB3|NUMP98")) %>%
+  filter(match_genes(pg_genes, c("LMNA", "NUMBL", "GGT7"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_loc)
@@ -108,11 +117,11 @@ for (current_key in keys_to_plot) {
     next
   }
   
-  # Calculate median and standard deviation for the current key
-  df_median_summary <- df_selected %>%
+  # Calculate mean and standard deviation for the current key
+  df_mean_summary <- df_selected %>%
     group_by(r_condition, fraction, treatment) %>%
     summarise(
-      median_intensity = median(normalised_intensity, na.rm = TRUE),
+      mean_intensity = mean(normalised_intensity, na.rm = TRUE),
       sd_intensity = sd(normalised_intensity, na.rm = TRUE),
       .groups = 'drop'
     )
@@ -121,15 +130,15 @@ for (current_key in keys_to_plot) {
   max_normalised_intensity <- max(df_selected$normalised_intensity, na.rm = TRUE)
   
   # Create the plot for the current key
-  p2_median_intensity <- df_median_summary %>%
-    ggplot(aes(x = r_condition, y = median_intensity, fill = fraction)) +
+  p2_mean_intensity <- df_mean_summary %>%
+    ggplot(aes(x = r_condition, y = mean_intensity, fill = fraction)) +
     
-    # Bar plot representing the median intensity
+    # Bar plot representing the mean intensity
     geom_col(colour = "black", linewidth = 0.75, alpha = 0.6, width = 0.75) +
     
     # Error bars representing the standard deviation
     geom_errorbar(
-      aes(ymin = pmax(0, median_intensity - sd_intensity), ymax = median_intensity + sd_intensity),
+      aes(ymin = pmax(0, mean_intensity - sd_intensity), ymax = mean_intensity + sd_intensity),
       width = 0.2, 
       colour = "black", 
       linewidth = 0.75
@@ -145,7 +154,7 @@ for (current_key in keys_to_plot) {
     ) +
     
     # Facet by treatment to separate the plots
-    facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
     
     # Apply themes and styling
     theme_bw() +
@@ -162,17 +171,17 @@ for (current_key in keys_to_plot) {
     
     # Set y-axis limits and labels
     scale_y_continuous(limits = c(0, max_normalised_intensity * 1.05), expand = c(0, 0)) +
-    ylab("Median Intensity") +
+    ylab("Intensity") +
     
     # Add the key name as the title
     ggtitle(paste(current_key))
   
   # plot log2
-  # Calculate median and standard deviation for the current key
-  df_median_summary_log2 <- df_selected %>%
+  # Calculate mean and standard deviation for the current key
+  df_mean_summary_log2 <- df_selected %>%
     group_by(r_condition, fraction, treatment) %>%
     summarise(
-      median_intensity_log2 = median(normalised_intensity_log2, na.rm = TRUE),
+      mean_intensity_log2 = mean(normalised_intensity_log2, na.rm = TRUE),
       sd_intensity_log2 = sd(normalised_intensity_log2, na.rm = TRUE),
       .groups = 'drop'
     )
@@ -181,15 +190,15 @@ for (current_key in keys_to_plot) {
   max_normalised_intensity_log2 <- max(df_selected$normalised_intensity_log2, na.rm = TRUE)
   
   # Create the plot for the current key
-  p2_median_intensity_log2 <- df_median_summary_log2 %>%
-    ggplot(aes(x = r_condition, y = median_intensity_log2, fill = fraction)) +
+  p2_mean_intensity_log2 <- df_mean_summary_log2 %>%
+    ggplot(aes(x = r_condition, y = mean_intensity_log2, fill = fraction)) +
     
-    # Bar plot representing the median intensity
+    # Bar plot representing the mean intensity
     geom_col(colour = "black", linewidth = 0.75, alpha = 0.6, width = 0.75) +
     
     # Error bars representing the standard deviation
     geom_errorbar(
-      aes(ymin = pmax(0, median_intensity_log2 - sd_intensity_log2), ymax = median_intensity_log2 + sd_intensity_log2),
+      aes(ymin = pmax(0, mean_intensity_log2 - sd_intensity_log2), ymax = mean_intensity_log2 + sd_intensity_log2),
       width = 0.2, 
       colour = "black", 
       linewidth = 0.75
@@ -205,7 +214,7 @@ for (current_key in keys_to_plot) {
     ) +
     
     # Facet by treatment to separate the plots
-    facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
     
     # Apply themes and styling
     theme_bw() +
@@ -222,13 +231,13 @@ for (current_key in keys_to_plot) {
     
     # Set y-axis limits and labels
     scale_y_continuous(limits = c(0, max_normalised_intensity_log2 * 1.05), expand = c(0, 0)) +
-    ylab("log2(Median Intensity)") +
+    ylab("log2(Intensity)") +
     
     # Add the key name as the title
     ggtitle(paste(current_key))
   # Add the newly created plot to our list, using the key as the name
-  intensity_plots[[paste0(current_key, "_raw")]] <- p2_median_intensity
-  intensity_plots[[paste0(current_key, "_log2")]] <- p2_median_intensity_log2
+  intensity_plots[[paste0(current_key, "_raw")]] <- p2_mean_intensity
+  intensity_plots[[paste0(current_key, "_log2")]] <- p2_mean_intensity_log2
 }
 
 # --- Display Plots ---
@@ -240,16 +249,7 @@ combined_intensity_plot1 <- grid.arrange(grobs = intensity_plots[c(1,2,3,4)], nc
 combined_intensity_plot2 <- grid.arrange(grobs = intensity_plots[c(5,6,7,8)], ncol = 2)
 combined_intensity_plot3 <- grid.arrange(grobs = intensity_plots[c(9,10,11,12)], ncol = 2)
 combined_intensity_plot4 <- grid.arrange(grobs = intensity_plots[c(13,14,15,16)], ncol = 2)
-combined_intensity_plot5 <- grid.arrange(grobs = intensity_plots[c(17,18,19,20)], ncol = 2)
-combined_intensity_plot6 <- grid.arrange(grobs = intensity_plots[c(21,22,23,24)], ncol = 2)
-combined_intensity_plot7 <- grid.arrange(grobs = intensity_plots[c(25,26,27,28)], ncol = 2)
-combined_intensity_plot8 <- grid.arrange(grobs = intensity_plots[c(29,30,31,32)], ncol = 2)
-combined_intensity_plot9 <- grid.arrange(grobs = intensity_plots[c(33,34,35,36)], ncol = 2)
-combined_intensity_plot10 <- grid.arrange(grobs = intensity_plots[c(37,38,39,40)], ncol = 2)
-combined_intensity_plot11 <- grid.arrange(grobs = intensity_plots[c(41,42,43,44)], ncol = 2)
-combined_intensity_plot12 <- grid.arrange(grobs = intensity_plots[c(45,46,47,48)], ncol = 2)
-combined_intensity_plot13 <- grid.arrange(grobs = intensity_plots[c(49,50,51,52)], ncol = 2)
-combined_intensity_plot14 <- grid.arrange(grobs = intensity_plots[c(53,1,2,3)], ncol = 2)
+
 # Save the combined plots as a PDF file
 ## Save plots --------------------------
 pdf(file = plot_output, width = 20, height = 10)
@@ -266,26 +266,6 @@ grid.newpage()
 grid.draw(combined_intensity_plot3)
 grid.newpage()
 grid.draw(combined_intensity_plot4)
-grid.newpage()
-grid.draw(combined_intensity_plot5)
-grid.newpage()
-grid.draw(combined_intensity_plot6)
-grid.newpage()
-grid.draw(combined_intensity_plot7)
-grid.newpage()
-grid.draw(combined_intensity_plot8)
-grid.newpage()
-grid.draw(combined_intensity_plot9)
-grid.newpage()
-grid.draw(combined_intensity_plot10)
-grid.newpage()
-grid.draw(combined_intensity_plot11)
-grid.newpage()
-grid.draw(combined_intensity_plot12)
-grid.newpage()
-grid.draw(combined_intensity_plot13)
-grid.newpage()
-grid.draw(combined_intensity_plot14)
 dev.off()
 
 

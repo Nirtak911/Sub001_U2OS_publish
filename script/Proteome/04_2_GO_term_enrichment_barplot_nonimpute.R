@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -11,7 +14,7 @@ library(patchwork)
 ## Load data ---------------------------
 input<- file.path(data_in,"/4_1_gsea_cluster_pheatmap_scale_data_log2.csv")
 data<- read_protti(input)
-View(data)
+if (interactive()) View(data)
 
 # output data  ---------------------------
 plot_output <- file.path(data_in,"/Plots/04_2_scale_heatmap_GO_terms_bargraph_nonimpute.pdf")
@@ -43,7 +46,7 @@ split_list_sort <- lapply(split_list, function(x) {
   filter(row_number() <= 5) 
   return(x)
 })
-View(split_list_sort[[2]])
+if (interactive()) View(split_list_sort[[2]])
 
 # arrange the category value in the desired order for the plot by sorting the category value according to the enrichment factor in a descending order
 split_list_sort <- lapply(split_list_sort, function(x) {

@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 # -------------------------------------------------------------------------
 # SETUP: Load Libraries & Define Paths
 # -------------------------------------------------------------------------
@@ -25,8 +28,8 @@ median_output <- file.path(data_in, "06_0_diff_and_scaled_mobility_top_movements
 diff_data <- read_csv(diff_input)
 norm_data_full <- read_csv(norm_input)
 genes <- read_csv(genes_input)
-View(norm_data_full)
-View(diff_data)
+if (interactive()) View(norm_data_full)
+if (interactive()) View(diff_data)
 
 # calculate avarage scaled intensity and pct_changing
 norm_data <- norm_data_full %>% 
@@ -76,7 +79,7 @@ movement_fraction_data <- norm_data %>%
   ) 
 
 # View the final summary table
-View(movement_fraction_data)
+if (interactive()) View(movement_fraction_data)
 
 # -------------------------------------------------------------------------
 # 1. Start with the Classified Data
@@ -119,7 +122,7 @@ movement_combinations_data <- loss_data %>%
   # 4. Calculate Final Metrics (as before)
   mutate(
     movement = paste0(loss_fraction, "->", gain_fraction),
-    pair_movement_score = (abs(loss_pct_change) + abs(gain_pct_change)) / 2
+    pair_mobility_score = (abs(loss_pct_change) + abs(gain_pct_change)) / 2
   ) %>%
   
   # 5. Add Contextual Metadata (optional)
@@ -130,21 +133,21 @@ movement_combinations_data <- loss_data %>%
     by = c("pg_protein_groups", "treatment", "r_replicate")
   )
 
-View(movement_combinations_data)
+if (interactive()) View(movement_combinations_data)
 
 # -------------------------------------------------------------------------
 # add movement_fraction_data to diff_data
 combined_data <- movement_combinations_data %>%
   left_join(diff_data %>% 
-              dplyr::select(pg_protein_groups, Treatment, comparison,
-                            diff, pval, adj_pval, movement, classified_movement) %>%
-              rename("treatment" = "Treatment"),
+              dplyr::select(pg_protein_groups, pg_genes, Treatment, comparison,
+                            diff, pval, q_value, adj_pval, movement, classified_movement) %>%
+              dplyr::rename("treatment" = "Treatment"),
             by = c("pg_protein_groups", "treatment", "movement")) 
-View(combined_data)    
+if (interactive()) View(combined_data)    
 
 combined_data_filtered <- combined_data %>%
   filter(!is.na(comparison))
-View(combined_data_filtered)
+if (interactive()) View(combined_data_filtered)
 
 # select movements that are the same in three reps
 movements_in_all_reps <- combined_data_filtered %>%
@@ -157,18 +160,18 @@ movements_in_all_reps <- combined_data_filtered %>%
     .groups = "drop"
   ) %>%
   filter(lengths(movements_present_in_all) > 0)
-View(movements_in_all_reps)
+if (interactive()) View(movements_in_all_reps)
 
 movements_in_all_reps_expanded <- movements_in_all_reps %>%
   tidyr::unnest(movements_present_in_all)
-View(movements_in_all_reps_expanded)
+if (interactive()) View(movements_in_all_reps_expanded)
 
 # filter combined_data to only include movements present in all reps
 combined_data_final <- combined_data_filtered %>%
   inner_join(movements_in_all_reps_expanded %>%
-               rename(movement = movements_present_in_all),
+               dplyr::rename(movement = movements_present_in_all),
              by = c("pg_protein_groups", "treatment", "movement"))
-View(combined_data_final)
+if (interactive()) View(combined_data_final)
 
 # Count how many paths the script gets to choose from
 movement_counts <- combined_data_final %>%
@@ -177,17 +180,19 @@ movement_counts <- combined_data_final %>%
 
 # median values per top movements
 combined_data_median <- combined_data_final %>%
-  group_by(pg_protein_groups, treatment, movement, classified_movement) %>%
+  group_by(pg_protein_groups, pg_genes, treatment, movement, classified_movement) %>%
   summarise(
     diff = median(diff, na.rm = TRUE),
     pval = median(pval, na.rm = TRUE),
+    q_value = median(q_value, na.rm = TRUE),
     adj_pval = median(adj_pval, na.rm = TRUE),
+    median_pair_mobility_score = median(pair_mobility_score, na.rm = TRUE),
     median_total_movement = median(total_movement, na.rm = TRUE),
-    median_mobility_score = median(mobility_score, na.rm = TRUE),
     median_count_frac_changing = median(count_frac_changing, na.rm = TRUE),
+    median_mobility_score = median(mobility_score, na.rm = TRUE),
     .groups = "drop"
   )
-View(combined_data_median)
+if (interactive()) View(combined_data_median)
  
 # -------------------------------------------------------------------------
 # SAVE RESULTS

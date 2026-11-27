@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 # Load libraries
 library(tidyverse)
 library(protti)
@@ -23,7 +26,7 @@ plot_output_combined <- file.path(data_in,"Plots/04_11_barplot_stacked_combined.
 
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                   "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                   "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                    "Frac5" = "#56B4E9", "Frac6" = "#0072B2",
                    "NA" = "lightgrey",
                    "Cytoplasm" = "#33A02C",
@@ -51,36 +54,41 @@ custom_theme <- theme(
 #left join genes
 data <- data%>%
   left_join(genes, by = "pg_protein_groups")
-View(data)
+if (interactive()) View(data)
 
 # sort the treatments for the plot in custom order
 data <- data %>%
   mutate(treatment = factor(treatment, levels = c("CTRL", "Anis", "p38", "Zaki")))
 
-# generell abundance change
+# helper: exact gene match, also within protein groups like "A;B"
+match_genes <- function(x, genes) {
+  pattern <- paste0("(^|;)(", paste(genes, collapse = "|"), ")(;|$)")
+  str_detect(x, pattern)
+}
+
+# general abundance change
 selected_genes_ab <- data %>%
-  filter(str_detect(pg_genes, "JUND|MAPK14|LARP1|TRIM28|TRIM28|STAT1|RB1")) %>%
+  filter(match_genes(pg_genes, c("JUND", "STAT1"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_ab)
 
-# distribution change due to abuncdance change
+# distribution change due to abundance change
 selected_genes_dis <- data %>%
-  filter(str_detect(pg_genes, "LARP1|LMNB1|CENPF|NONO|IGHMBP2|RPS9|SUN1|ITPRIPL2")) %>%
+  filter(match_genes(pg_genes, c("LARP1", "IGHMBP2", "RPS9"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_dis)
 
-# real localisation change
+# distribution change
 selected_genes_loc <- data %>%
-  filter(str_detect(pg_genes, "NUMP|LMNA|NUMBL|GGT7|EFNB3|NUMP98")) %>%
+  filter(match_genes(pg_genes, c("LMNA", "NUMBL", "GGT7"))) %>%
   pull(pg_genes) %>%
   unique()
 print(selected_genes_loc)
 
 # combine all selections
 selected_genes <- c(selected_genes_ab, selected_genes_dis, selected_genes_loc)
-selected_genes
 
 
 # Initialize an empty list to store the generated plots
@@ -119,7 +127,7 @@ stacked_intensity_plots <- list()
     p2_scaled <- df_scaled %>%
       ggplot(aes(x = treatment, y = pct_protein, fill = fraction)) +
       geom_col(colour = "black", linewidth = 0.5, alpha = 0.8, width = 1, position = "stack") +
-      facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+      facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
       theme_bw() +
       custom_theme +
       theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
@@ -127,7 +135,7 @@ stacked_intensity_plots <- list()
       scale_fill_manual(values = custom_colors) +
       scale_colour_manual(values = custom_colors) +
       scale_y_continuous(limits = c(0, 100.001), expand = c(0, 0)) +  # Set y-axis limit to 100%
-      ylab("% Protein") +
+      ylab("Relative distribution [%]") +
       ggtitle(paste(gene)) +
       theme(legend.position = "none") # Omit the legend
     p2_scaled
@@ -136,7 +144,6 @@ stacked_intensity_plots <- list()
     stacked_intensity_plots[[gene]] <- p2_scaled
   }
   stacked_intensity_plots
-  stacked_intensity_plots[1]
 
 # --- Display Plots ---
 # You can now display the plots by printing the list.
@@ -144,9 +151,7 @@ print(stacked_intensity_plots)
 
 
 # Combine specific plots into one grid with 2 columns
-combined_intensity_plot1 <- grid.arrange(grobs = stacked_intensity_plots[c(1,2,3,4,5,6,7,8,9,10,11,12)], ncol = 4)
-combined_intensity_plot2 <- grid.arrange(grobs = stacked_intensity_plots[c(13,14,15,16,17,18,19,20,21,22,23,24)], ncol = 4)
-combined_intensity_plot3 <- grid.arrange(grobs = stacked_intensity_plots[c(25,26,27,28,29,1,2,3,4,5,6,7)], ncol = 4)
+combined_intensity_plot1 <- grid.arrange(grobs = stacked_intensity_plots[c(1,2,3,4,5,6,7,8)], ncol = 4)
 
 
 # Save the combined plots as a PDF file
@@ -157,11 +162,7 @@ for (plot in stacked_intensity_plots) {
 }
 dev.off()
 
-pdf(file = plot_output_combined, width = 11, height = 7)
+pdf(file = plot_output_combined, width = 11, height = 5)
 grid.draw(combined_intensity_plot1)
-grid.newpage()
-grid.draw(combined_intensity_plot2)
-grid.newpage()
-grid.draw(combined_intensity_plot3)
 dev.off()
 

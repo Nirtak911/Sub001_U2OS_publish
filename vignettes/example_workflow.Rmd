@@ -1,0 +1,187 @@
+---
+title: "Example workflow: subcellular proteome profiling on a data subset"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    self_contained: true
+---
+
+```{r setup, include = FALSE}
+# all paths below are relative to the project root
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+# set to FALSE to re-render text and plots from existing results only
+run_pipeline <- TRUE
+```
+
+This vignette runs the Proteome part of the analysis pipeline on a small example
+dataset that is included in the repository, reproduces the marker profile plot
+of Figure 3c and builds a ranked table of candidate protein redistributions.
+
+Rendering it runs the complete Proteome pipeline (`01` to `06`) and takes
+roughly 15–30 minutes. To render it, start R in the project root and run:
+
+```r
+rmarkdown::render("vignettes/example_workflow.Rmd")
+```
+
+To re-render only the text and plots from existing results, set
+`run_pipeline <- FALSE` in the first chunk of this file.
+
+## Example dataset
+
+`example_data/input/` contains a subset of the Spectronaut protein group report
+used in the manuscript (PRIDE PXD067608):
+
+- all proteins of the subcellular marker set (`Subcell_markers_selected.csv`)
+  that were identified (639 of 650 marker entries), plus
+- 500 randomly selected other proteins,
+- for all 96 runs: 6 fractions × 4 conditions (`CTRL`, `Anis`, `p38`, `Zaki`;
+  treatments as described in the manuscript) × 4 replicates.
+
+All conditions and fractions are kept, because normalisation, imputation and
+the limma contrasts are computed per fraction across all conditions. The report
+is stored gzipped; `script/Proteome/00_path_definitions.R` uses the `.tsv.gz`
+file when no uncompressed report is present.
+
+```{r packages}
+library(tidyverse)
+```
+
+```{r data-overview}
+report <- readr::read_tsv(
+  list.files("example_data/input/Proteome", pattern = "\\.tsv\\.gz$", full.names = TRUE),
+  show_col_types = FALSE
+)
+
+report %>%
+  summarise(
+    proteins = n_distinct(PG.ProteinGroups),
+    runs     = n_distinct(R.FileName),
+    rows     = n()
+  ) %>%
+  knitr::kable()
+```
+
+## Run the pipeline
+
+The input and output folders are set with environment variables, which are read
+by `script/Proteome/00_path_definitions.R`. Results are written to
+`example_data/results/`, so the results of the full dataset in `data/` are not
+touched.
+
+```{r folders}
+Sys.setenv(
+  SUB001_RAW_DIR  = "example_data/input",
+  SUB001_DATA_DIR = "example_data/results"
+)
+```
+
+`run_pipeline.R` runs each script in its own R session, exactly as it would be
+run on its own. `core` runs only the scripts that produce result tables (no QC
+and figure scripts). The console output of every script is written to
+`logs/proteome/`.
+
+```{r run-pipeline, eval = run_pipeline}
+rscript <- file.path(R.home("bin"), "Rscript")
+status  <- system2(rscript, c("run_pipeline.R", "proteome", "core"))
+stopifnot(status == 0)
+```
+
+## Marker profiles (Figure 3c)
+
+`script/Proteome/04_8_...RepSep_centroids.R` plots the scaled intensity profiles
+of the marker proteins across the six fractions (CTRL, per replicate, with the
+centroid of each compartment). It is run here directly so that the plot is
+shown in this document. When the script is run on its own (Rscript or
+RStudio), it also saves the plot as a PDF in `<data folder>/Proteome/Plots/`.
+
+```{r fig3c, fig.width = 12, fig.height = 8}
+fig_env <- new.env()
+source(
+  "script/Proteome/04_8_scaled_intensity_profile_plots_selected_markers_nonimputed_RepSep_centroids.R",
+  local = fig_env
+)
+fig_env$combined_plot
+```
+
+Because the marker profiles are computed per protein, they are expected to look
+very similar to Figure 3c of the manuscript.
+
+## Ranked candidate redistributions
+
+`06_0_diff_and_scaled_mobility_top_movements_median.csv` contains one row per
+protein, treatment and redistribution between two fractions, with the limma interaction
+result (`diff`, `pval`, `adj_pval`) and the scores computed from the scaled
+intensities:
+
+- `median_pair_mobility_score`: share of the protein signal shifted between the
+  two fractions of the redistribution (median of the replicates),
+- `median_mobility_score`: overall redistribution of the protein across all
+  fractions it was detected in.
+
+Candidates are first selected by the adjusted p-value of the interaction
+contrast and then ranked by the pair mobility score:
+
+```{r candidates}
+redistributions <- readr::read_csv(
+  "example_data/results/Proteome/06_0_diff_and_scaled_mobility_top_movements_median.csv",
+  show_col_types = FALSE
+)
+
+candidates <- redistributions %>%
+  filter(adj_pval < 0.05) %>%
+  arrange(desc(median_pair_mobility_score))
+
+candidates %>%
+  count(treatment, name = "significant redistributions") %>%
+  knitr::kable()
+
+candidates %>%
+  select(pg_genes, treatment, movement, classified_movement, diff, adj_pval,
+         median_pair_mobility_score, median_mobility_score) %>%
+  head(20) %>%
+  knitr::kable(digits = 3)
+```
+
+## Differences to the full dataset
+
+The candidate table above is not expected to match the results of the full
+dataset exactly:
+
+- **Multiple testing.** Benjamini–Hochberg adjustment is done per contrast over
+  all proteins tested in that contrast. With about 1,100 instead of about 10,000
+  proteins, the number of tests is much smaller, so adjusted p-values and the
+  set of significant redistributions differ.
+- **Normalisation and imputation** are estimated from the proteins in the data.
+  With fewer proteins, the loess normalisation and the imputed values for
+  missing measurements change slightly.
+
+If the results of the full dataset are available in `data/` (they are not part
+of the repository), the overlap is shown below.
+
+```{r compare-full}
+full_file <- "data/Proteome/06_0_diff_and_scaled_mobility_top_movements_median.csv"
+
+if (file.exists(full_file)) {
+  full_candidates <- readr::read_csv(full_file, show_col_types = FALSE) %>%
+    filter(adj_pval < 0.05)
+
+  key <- c("pg_protein_groups", "treatment", "movement")
+  tibble(
+    `significant in subset`            = nrow(candidates),
+    `also significant in full dataset` = nrow(semi_join(candidates, full_candidates, by = key))
+  ) %>%
+    knitr::kable()
+} else {
+  cat("Results of the full dataset not found in data/; comparison skipped.\n")
+}
+```
+
+## Session info
+
+```{r session-info}
+sessionInfo()
+```

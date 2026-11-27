@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -13,8 +16,8 @@ meta <- file.path(data_in, "01_meta_data.csv")
 data_input <- read_csv(input, col_types = cols(...1 = col_skip()))
 meta_input <- read_csv(meta)
 
-View(data_input)
-View(meta_input)
+if (interactive()) View(data_input)
+if (interactive()) View(meta_input)
 
 ## output data -------------------------------------------------------------
 impute_output <- file.path(data_in, "/03_0_missingness_protti_data_log2.csv")
@@ -42,8 +45,8 @@ for (df in FR_list_norm) {
                        grouping = pg_protein_groups,
                        intensity = normalised_intensity_log2,
                        ref_condition = ref_condition,
-                       completeness_MAR = 0.8, # means that if 1 out of 3 is missing, it will be imputed
-                       completeness_MNAR = 0.3, # if there is 1 values in one cond and the other cond is complete, it will be imputed
+                       completeness_MAR = 0.8, # means that if 1 out of 4 is missing, it will be imputed
+                       completeness_MNAR = 0.2, # if there is 0 values in one cond and the other cond is complete (n=4), it will be imputed
                        retain_columns = c(pg_genes, 
                                           pg_quantity,
                                           log2_pg_quantity,
@@ -57,7 +60,7 @@ for (df in FR_list_norm) {
   # Store the result in the result list
   FR_list_missing[[length(FR_list_missing) + 1]] <- data_missing
 }
-View(FR_list_missing[[1]])
+if (interactive()) View(FR_list_missing[[1]])
 
 # Create an empty list to store the results
 FR_list_impute <- list()
@@ -88,7 +91,7 @@ for (df in FR_list_missing) {
   FR_list_impute[[length(FR_list_impute) + 1]] <- data_impute
 }
 print(FR_list_impute)
-View(FR_list_impute[[1]])
+if (interactive()) View(FR_list_impute[[1]])
 
 # display intensity distribution after imputation
 # Create an empty list to store plots
@@ -123,7 +126,7 @@ data_impute <- bind_rows(FR_list_impute)
 
 data_impute$imputed_intensity_log2 <- data_impute$imputed_intensity
 data_impute$imputed_intensity <- 2^(data_impute$imputed_intensity_log2)
-View(data_impute) 
+if (interactive()) View(data_impute) 
 
 missingness_counts <- data_impute %>%
   # Keep only one row for each unique combination of the case identifiers
@@ -143,7 +146,7 @@ data_impute_matrix <- data_impute %>%
               values_from = imputed_intensity_log2,
               values_fn = function(x) mean(x, na.rm = TRUE))
 
-View(data_impute_matrix)
+if (interactive()) View(data_impute_matrix)
 
 p3_imputed_distribution <- qc_intensity_distribution(
   data = data_impute,

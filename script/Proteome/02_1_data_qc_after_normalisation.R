@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -12,7 +15,7 @@ library(ggprism)
 input <- file.path(data_in, "/02_loess_data_log2.csv")
 
 data <- read_csv(input)
-View(data)
+if (interactive()) View(data)
 ## output data------------------
 count_output <-  file.path(data_in, "/02_counts.tsv")
 plot_output<- file.path(data_in, "/Plots/02_1_QC_loess.pdf")
@@ -32,7 +35,7 @@ t1_protein_IDs <- qc_ids(
   title = "Protein identifications per sample",
   plot = FALSE
 )
-View(t1_protein_IDs)
+if (interactive()) View(t1_protein_IDs)
 
 # add cell line column
 t1_protein_IDs$cell_line <- map_chr(str_split(t1_protein_IDs$r_condition, "_"), 1)

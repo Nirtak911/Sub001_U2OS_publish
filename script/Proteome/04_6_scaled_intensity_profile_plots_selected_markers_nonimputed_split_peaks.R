@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,7 +13,7 @@ library(patchwork)
 ## Load data---------------------
 input <- file.path(data_in,"/04_scale_not_abs_loess_data_log2.csv")
 data <- read_csv(input)
-input2 <- "raw/Subcell_markers_selected.csv"
+input2 <- file.path(annot_dir, "Subcell_markers_selected.csv")
 selected_markers <- read_protti(input2)
 input3 <- file.path(data_in,"/01_genes.csv")
 genes <- read_csv(input3)
@@ -20,8 +23,8 @@ output <- file.path(data_in,"/04_6_Profile_plots_selected_markers_CTRLalone_noni
 plot_output <- file.path(data_in,"/Plots/04_6_Profile_plots_selected_markers_CTRLalone_nonimpute_peaks_split.pdf")
 plot_output_separate <- file.path(data_in,"/Plots/04_6_Profile_plots_selected_markers_CTRLalone_nonimpute_separate_peaks_split.pdf")
 
-View(data)
-View(selected_markers)
+if (interactive()) View(data)
+if (interactive()) View(selected_markers)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
@@ -55,11 +58,11 @@ colnames(selected_markers)[colnames(selected_markers) == "uniprot_id"] <- "pg_pr
 colnames(selected_markers)[colnames(selected_markers) == "gene_name"] <- "pg_genes"
 # Add deeploc data
 data_select <- data %>% left_join(selected_markers, by = "pg_genes")
-View(data_select)
+if (interactive()) View(data_select)
 
 # Filter for each deeploc localisation the top100
 data_select <- data_select %>% filter(!is.na(hsap_location_marker))
-View(data_select)
+if (interactive()) View(data_select)
 
 # 1. Pre-process the dataset to split the bimodal markers into unique categories
 data_prepared <- data_select %>%
@@ -117,7 +120,7 @@ profile_function <- function(df) {
 
 #Apply the function to each dataframe in the list deeploc
 deeploc_list <- map(deeploc_list, profile_function)
-View(deeploc_list[[1]])
+if (interactive()) View(deeploc_list[[1]])
 
 ## Create plots for the Deeploc data-----------------------------------
 ## 1. RE-RUN THE LOOP WITH NAMED KEYS -----------------------------------

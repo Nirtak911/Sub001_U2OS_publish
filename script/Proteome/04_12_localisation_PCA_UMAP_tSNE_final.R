@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -9,9 +12,9 @@ library(ggprism)
 library(plotly)
 
 ## Load data---------------------
-input <- file.path(data_in,"04_scale_not_abs_imputeFRsep_data_log2.csv")
+input <- file.path(data_in,"04_scale_not_abs_loess_data_log2.csv")
 data <- read_csv(input)
-input2 <- "raw/annotations_hpa_2024-03-05.csv"
+input2 <- file.path(annot_dir, "annotations_hpa_2024-03-05.csv")
 deeploc <- read_csv(input2)
 
 
@@ -22,7 +25,7 @@ plot_output <- file.path(data_in,"/Plots/04_12_PCA_UMAP_tSNE_localisation.pdf")
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                    "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                    "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                     "Frac5" = "#56B4E9", "Frac6" = "#0072B2",
                     "NA"  = "lightgrey",                    
                     "Cytoplasm" = "#33A02C",            
@@ -46,14 +49,14 @@ colnames(deeploc)[colnames(deeploc) == "PG.ProteinGroups"] <- "pg_protein_groups
 # Add deeploc data
 data_loc <- data %>% left_join(deeploc, by = "pg_protein_groups") %>%
   filter(treatment == "CTRL")
-View(data_loc)
+if (interactive()) View(data_loc)
 
 # Find the Fraction with highest scaled_intensity for each pg_protein_groups
 max_fraction <- data_loc %>%
   group_by(pg_protein_groups) %>%
   filter(scaled_intensity == max(scaled_intensity)) %>%
-  select(pg_protein_groups, fraction, deeploc_single)
-View(max_fraction)
+  dplyr::select(pg_protein_groups, fraction, deeploc_single)
+if (interactive()) View(max_fraction)
 
 
 # Convert data to wide format
@@ -63,7 +66,7 @@ data_wide <- data_loc %>%
               values_from=scaled_intensity) %>%
   drop_na() %>% 
   column_to_rownames("pg_protein_groups")
-View(data_wide)
+if (interactive()) View(data_wide)
 
 # --- 1. RUN PCA (2D) ---
 # scale. = TRUE is highly recommended if data isn't already z-scored/scaled
@@ -82,7 +85,7 @@ pca_2D_layout <- as_tibble(pca_res$x) %>%
 # --- 2. JOIN METADATA & BUILD INDIVIDUAL PLOTS ---
 t_pca <- pca_2D_layout %>% 
   left_join(max_fraction, by = "pg_protein_groups")
-View(t_pca)
+if (interactive()) View(t_pca)
 
 # Plot 1: PCA Fraction
 p_pca_1 <- t_pca %>% 
@@ -122,14 +125,16 @@ set.seed(42) # For reproducibility
 umap_2D <- umap(data_wide, n_neighbors = 20, min_dist = 0.1)
 
 # Convert UMAP results to a tibble and rename coordinates for clarity
-umap_2D_layout <- as_tibble(umap_2D$layout, rownames = "pg_protein_groups") %>% 
-  rename(UMAP1 = V1, UMAP2 = V2)
+umap_2D_layout <- umap_2D$layout %>%
+  as_tibble(rownames = "pg_protein_groups", .name_repair = "minimal") %>%
+  setNames(c("pg_protein_groups", "UMAP1", "UMAP2"))
 
+head(umap_2D_layout)
 
 # --- 2. JOIN METADATA & BUILD INDIVIDUAL PLOTS ---
 t1 <- umap_2D_layout %>% 
   left_join(max_fraction, by = "pg_protein_groups") 
-View(t1)
+if (interactive()) View(t1)
 
 # Plot 1: UMAP Fraction
 p1 <- t1 %>% 
@@ -184,15 +189,17 @@ tsne_2D <- Rtsne(
 )
 
 # Convert to tibble using the unique rownames vector
-tsne_2D_layout <- as_tibble(tsne_2D$Y) %>% 
-  mutate(pg_protein_groups = rownames_unique) %>% 
-  rename(tSNE1 = V1, tSNE2 = V2)
+tsne_2D_layout <- tsne_2D$Y %>%
+  as_tibble(.name_repair = "minimal") %>%
+  setNames(c("tSNE1", "tSNE2")) %>%
+  mutate(pg_protein_groups = rownames_unique, .before = 1)
 
+head(tsne_2D_layout)
 
 # --- 2. 2D PLOTS & TABLES ---
 t_tsne <- tsne_2D_layout %>% 
   left_join(max_fraction, by = "pg_protein_groups") 
-View(t_tsne)
+if (interactive()) View(t_tsne)
 
 # Plot 1: t-SNE Fraction
 p_tsne_1 <- t_tsne %>% 

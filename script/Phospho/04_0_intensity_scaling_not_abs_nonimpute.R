@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -9,7 +12,7 @@ genes <- file.path(data_in, "01_genes.csv")
 data <- read_csv(input)
 meta <- read_csv(meta)
 genes <- read_csv(genes)
-View(data)
+if (interactive()) View(data)
 ## output data  ---------------------------
 scale_impute_output <- file.path(data_in, "/04_0_scale_not_abs_data_log2.csv")
 scale_impute_matrix_output <- file.path(data_in, "/04_0_scale_not_abs_data_log2_matrix.csv")
@@ -24,7 +27,7 @@ scale_and_count <- function(data) {
     mutate(total_intensity = sum(original_intensity, na.rm = TRUE)) %>% 
     mutate(scaled_intensity = ifelse(total_intensity == 0, 0, original_intensity/total_intensity)) %>%
     ungroup()
-  View(data_scale)
+  if (interactive()) View(data_scale)
   
   # count in how many fractions a protein was identified
   fraction_count <- data_scale %>%
@@ -41,7 +44,7 @@ scale_and_count <- function(data) {
     ungroup() %>% 
     mutate(pct_all = count_identified_all/count_identified_total,
            pct_2 = count_identified_2/count_identified_total)
-  View(count_identified)
+  if (interactive()) View(count_identified)
   
   return(list(data_scale = data_scale, 
               count_identified = count_identified))
@@ -64,7 +67,7 @@ data_impute_scale <- data_impute_scale %>%
     CTRL_intensity = scaled_intensity[treatment == "CTRL"],
     pct_changing = scaled_intensity - CTRL_intensity) %>%
   ungroup()
-View(data_impute_scale)
+if (interactive()) View(data_impute_scale)
 
 ## bring data to matrix format---------------------------------------
 # create matrix
@@ -72,12 +75,12 @@ data_scale_matrix <- data_impute_scale %>%
   dplyr::select(sample, ptm_collapse_key, scaled_intensity) %>%
   pivot_wider(names_from = sample, 
               values_from = scaled_intensity)
-View(data_scale_matrix)  
+if (interactive()) View(data_scale_matrix)  
 
 # convert NA to 0
 data_scale_matrix_NA <- data_scale_matrix %>% 
   replace(is.na(.), 0)
-View(data_scale_matrix_NA)
+if (interactive()) View(data_scale_matrix_NA)
 
 data_scale_NA <- data_scale_matrix_NA %>%
   pivot_longer(cols = -ptm_collapse_key, 
@@ -90,7 +93,7 @@ data_scale_NA <- data_scale_matrix_NA %>%
     pct_changing = scaled_intensity - CTRL_intensity) %>%
   ungroup() %>%
   left_join(genes, by = "ptm_collapse_key")
-View(data_scale_NA)
+if (interactive()) View(data_scale_NA)
 
 
 ## Save data ---------------------------

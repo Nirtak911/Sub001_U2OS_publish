@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -14,20 +17,22 @@ library(purrr)
 ## Load data ---------------------------
 input<- file.path(data_in,"/04_6_Profile_plots_selected_markers_CTRLalone_nonimpute_peaks_split.csv")
 data<- read_protti(input)
-View(data)
+if (interactive()) View(data)
+
+# marker table written by 04_6 (previously taken from the 04_6 session object)
+data_prepared <- data
 
 # output data  ---------------------------
 plot_output <- file.path(data_in,"/Plots/04_7_scale_split_peaks_GO_terms_bargraph_nonimpute.pdf")
 
-# Create a named list of gene vectors for each custom marker group
+# Create a named list of gene vectors for each custom marker group.
+# split() names each element by its own marker group, so names and gene
+# lists always match (group_split() sorts the groups alphabetically, which
+# does not match the order of unique()).
 gene_lists_by_marker <- data %>%
   filter(!is.na(pg_genes)) %>%
   distinct(hsap_location_marker, pg_genes) %>%
-  group_split(hsap_location_marker) %>%
-  map(~ .x$pg_genes)
-
-# Name the list elements so clusterProfiler knows which is which
-names(gene_lists_by_marker) <- unique(data_prepared$hsap_location_marker)
+  { split(.$pg_genes, .$hsap_location_marker) }
 
 # Run the comparative cellular component enrichment
 go_enrichment_results <- compareCluster(

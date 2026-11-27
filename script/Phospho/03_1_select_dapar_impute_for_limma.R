@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -18,10 +21,10 @@ missing_input <- read_csv(missing, col_types = cols(...1 = col_skip()))
 data_impute_input <- read_csv(input_impute, col_types = cols(...1 = col_skip()))
 
 
-View(data_norm_input)
-View(meta_input)
-View(missing_input)
-View(data_impute_input)
+if (interactive()) View(data_norm_input)
+if (interactive()) View(meta_input)
+if (interactive()) View(missing_input)
+if (interactive()) View(data_impute_input)
 
 
 ## output data -------------------------------------------------------------
@@ -58,7 +61,7 @@ missing_collected <- missing_input %>%
     ),
     .groups = 'drop'
   )
-View(missing_collected)
+if (interactive()) View(missing_collected)
 
 # data_impute_protti_condensed <- missing_input %>%
 #   # 1. Keep only the rows that have a valid imputed intensity (removes the NA row)
@@ -85,7 +88,7 @@ data <- data_norm_input %>%
       TRUE ~ normalised_intensity_log2
     )
   )
-View(data)
+if (interactive()) View(data)
 
 # create matrix
 data_matrix <- data %>%
@@ -93,7 +96,7 @@ data_matrix <- data %>%
   pivot_wider(names_from = sample, values_from = final_intensity_log2) %>%
   arrange(ptm_collapse_key) %>%
   column_to_rownames(var = "ptm_collapse_key")
-View(data_matrix)
+if (interactive()) View(data_matrix)
 
 # save as csv-------------------------------------------------------------
 write.csv(data, limma_output)

@@ -14,3 +14,13 @@ raw/
 *.tsv
 *.txt
 *.xlsx
+
+# pipeline run logs
+logs/
+
+# example dataset: inputs are tracked, results are not
+!example_data/input/*.csv
+example_data/results/
+
+# plots that Rscript writes when a script prints a plot without opening a device
+Rplots.pdf

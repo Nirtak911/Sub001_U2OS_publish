@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -14,9 +17,9 @@ input<- file.path(data_in,"/04_0_scale_not_abs_data_log2.csv")
 data<- read_csv(input)
 genes <- file.path(data_in, "01_genes.csv")
 genes <- read_csv(genes)
-input2 <- "raw/annotations_hpa_2024-03-05.csv"
+input2 <- file.path(annot_dir, "annotations_hpa_2024-03-05.csv")
 deeploc <- read_csv(input2)
-View(data)
+if (interactive()) View(data)
 
 ## output data  ---------------------------
 plot_output <- file.path(data_in,"/Plots/04_1_pheatmap_scale_data_log2.pdf")
@@ -65,7 +68,7 @@ pheatmap_col <- data %>%
 # define colors for the annotations
 annotation_colors=list( treatment = c("CTRL" = "#abdbe3", "Anis" = "#063970", "Zaki" = "#f46d43", "p38" = "#d73027"),
                         fraction = c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                                     "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                                     "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                                      "Frac5" = "#56B4E9", "Frac6" = "#0072B2"),
                         #"total" = "#999999"),
                         Subcell_location = c("NA"  = "lightgrey",                    
@@ -145,11 +148,10 @@ pheatmap_rows<-tibble(ptm_collapse_key=p$tree_row$labels,
 row_cluster=cutree(p$tree_row,k=number_cluster_proteins))
 
 # add cluster information to the input data
-res <-data %>% left_join(annot_row,by="ptm_collapse_key") %>%
-  left_join(genes,by="ptm_collapse_key") 
+res <-data %>% left_join(annot_row,by="ptm_collapse_key")
 
 res$pg_genes <- map_chr(str_split(res$gene_PTM_key, "_"), 1)
-View(res)
+if (interactive()) View(res)
 
 # define gsea_test function
 gse_test <-function(gene_names)   {
@@ -186,7 +188,7 @@ gse_comb<-bind_rows(list("Cluster 1"= clusters_gsea$cluster1_genes@result,
   group_by(cluster_no) %>%
   slice_min(pvalue,n=10) %>%
   unite(col="GO",ID,Description, sep=" ",remove=F)
-View(gse_comb)
+if (interactive()) View(gse_comb)
 
 # add the information for which cell_line this is the gsea analysis
 gse_comb$cell_line<-pheatmap_col$cell_line[1]

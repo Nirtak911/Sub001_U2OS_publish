@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -13,9 +16,9 @@ input <- file.path(data_in,"05_0_diff_data_limma_dapar_impute_complete_group_omn
 data <- read_csv(input)
 input2 <- file.path(data_in,"01_genes.csv")
 genes <- read_csv(input2)
-input3 <- "raw/Subcell_markers_selected.csv"
+input3 <- file.path(annot_dir, "Subcell_markers_selected.csv")
 selected_markers <- read_protti(input3)
-View(data)
+if (interactive()) View(data)
 
 ## output data  ---------------------------
 plot_output <- file.path(data_in,"/Plots/05_1_diff_expression_limma_final.pdf")
@@ -167,24 +170,24 @@ for (df in split_list) {
   # Append the significant proteins to the list
   split_list_sig[[length(split_list_sig) + 1]] <- df_wide_sig
 }
-View(split_list_sig[[1]])
+if (interactive()) View(split_list_sig[[1]])
 
 # filter for significant proteins
 data_sig <- data %>% filter(adj_pval <= 0.05 & abs(diff) > cutoff_log2FC)
-View(data_sig)
+if (interactive()) View(data_sig)
 
 # wide format of the diff data
 df_wide <- data %>% 
   pivot_wider(names_from = comparison, 
               values_from = c(diff, pval, adj_pval))
-View(df_wide)
+if (interactive()) View(df_wide)
 
 # count significant up and down reguluated proteins per comparison
 sig_count <- data_sig %>% 
   group_by(comparison) %>% 
   summarise(sig_up = sum(diff > cutoff_log2FC),
             sig_down = sum(diff < -cutoff_log2FC))
-View(sig_count)
+if (interactive()) View(sig_count)
 
 # Save csv files --------------------------
 write_csv(df_wide, diff_matrix)

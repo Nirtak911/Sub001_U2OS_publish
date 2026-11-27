@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,7 +13,7 @@ library(patchwork)
 ## Load data---------------------
 input <- file.path(data_in,"/02_loess_data_log2.csv")
 data <- read_csv(input)
-input2 <- "raw/Subcell_markers_selected.csv"
+input2 <- file.path(annot_dir, "Subcell_markers_selected.csv")
 selected_markers <- read_protti(input2)
 input3 <- file.path(data_in,"/01_genes.csv")
 genes <- read_csv(input3)
@@ -18,8 +21,8 @@ genes <- read_csv(input3)
 # ## output data------------------
 plot_output <- file.path(data_in,"/Plots/04_10_quant_distribution_selected_markers_manual_CTRLalone_nonimpute.pdf")
 
-View(data)
-View(selected_markers)
+if (interactive()) View(data)
+if (interactive()) View(selected_markers)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
@@ -53,11 +56,11 @@ data <- data %>% filter(treatment == "CTRL")
 colnames(selected_markers)[colnames(selected_markers) == "gene_name"] <- "pg_genes"
 # Add deeploc data
 data_select <- data %>% left_join(selected_markers, by = "pg_genes")
-View(data_select)
+if (interactive()) View(data_select)
 
 # Filter for each deeploc localisation the top100
 data_select <- data_select %>% filter(!is.na(hsap_location_marker))
-View(data_select)
+if (interactive()) View(data_select)
 
 
 # 1. Calculate the summed compartment intensities and proportions per fraction

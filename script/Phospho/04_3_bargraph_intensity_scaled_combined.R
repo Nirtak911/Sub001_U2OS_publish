@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -22,7 +25,7 @@ plot_output <- file.path(data_in,"Plots/04_3_barplot_stacked_scaled_combined.pdf
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                   "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                   "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                    "Frac5" = "#56B4E9", "Frac6" = "#0072B2",
                    "NA"  = "lightgrey",                    
                    "Cytoplasm" = "#33A02C",            
@@ -48,25 +51,25 @@ custom_theme <- theme(
   legend.text = element_text(size = 12),
   legend.title = element_text(size = 14)
 )
-View(data)
+if (interactive()) View(data)
 
 # generell abundance change
 selected_genes_ab <- data %>%
-  filter(str_detect(gene_PTM_key, "JUND_S100|MAPK14_T180|LARP1_S766|TRIM28_T541|TRIM28_S473|STAT1_S727|RB1_T356|RB1_S249")) %>%
+  filter(str_detect(gene_PTM_key, "JUND_S100_M1|STAT1_S727_M1")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_ab)
 
 # distribution change due to abuncdance change
 selected_genes_dis <- data %>%
-  filter(str_detect(gene_PTM_key, "LARP1_T526|LMNB1_S23_M1|CENPF_S3023_M1|NONO_T450|IGHMBP2_S716_M1|RPS9_S146_M1|SUN1_S48_M1|ITPRIPL2_S78_M1")) %>%
+  filter(str_detect(gene_PTM_key, "LARP1_T526_M2|IGHMBP2_S716_M1|RPS9_S146_M1")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_dis)
 
 # real localisation change
 selected_genes_loc <- data %>%
-  filter(str_detect(gene_PTM_key, "NUMP_214_S678|LMNA_S390_M2|LMNA_S75_M1|NUMBL_S305|GGT7_S83|EFNB3_S268_M1|NUMP98_S1043")) %>%
+  filter(str_detect(gene_PTM_key, "LMNA_S390_M2|NUMBL_S305_M1|GGT7_S83_M2")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_loc)
@@ -114,7 +117,7 @@ for (gene in selected_genes) {
   p2_scaled <- df_scaled %>%
     ggplot(aes(x = treatment, y = pct_protein, fill = fraction)) +
     geom_col(colour = "black", linewidth = 0.5, alpha = 0.8, width = 1, position = "stack") +
-    facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
     theme_bw() +
     custom_theme +
     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
@@ -122,7 +125,7 @@ for (gene in selected_genes) {
     scale_fill_manual(values = custom_colors) +
     scale_colour_manual(values = custom_colors) +
     scale_y_continuous(limits = c(0, 100.001), expand = c(0, 0)) +  # Set y-axis limit to 100%
-    ylab("% Phosphosite") +
+    ylab("Relative distribution [%]") +
     ggtitle(paste(gene)) +
     theme(legend.position = "none") # Omit the legend
   p2_scaled
@@ -133,16 +136,11 @@ for (gene in selected_genes) {
 stacked_intensity_plots
 
 # combined_stacked_plot
-combined_stacked_intensity_plot1 <- grid.arrange(grobs = stacked_intensity_plots[c(1,2,3,4,5,6,7,8,9, 10, 11, 12)], ncol = 4)
-combined_stacked_intensity_plot2 <- grid.arrange(grobs = stacked_intensity_plots[c(13,14,15,16,17,18,19,20,21,22,23,24)], ncol = 4)
-combined_stacked_intensity_plot3 <- grid.arrange(grobs = stacked_intensity_plots[c(25,26,27,1,2,3,4,5,6,7,8,9)], ncol = 4)
+combined_stacked_intensity_plot1 <- grid.arrange(grobs = stacked_intensity_plots[c(1,2,3,4,5,6,7,8)], ncol = 4)
+combined_stacked_intensity_plot1
 
 # Save plots --------------------------
-pdf(file = plot_output, width = 11, height = 7)
+pdf(file = plot_output, width = 11, height = 5)
 grid.draw(combined_stacked_intensity_plot1)
-grid.newpage()
-grid.draw(combined_stacked_intensity_plot2)
-grid.newpage()
-grid.draw(combined_stacked_intensity_plot3)
 dev.off()
 

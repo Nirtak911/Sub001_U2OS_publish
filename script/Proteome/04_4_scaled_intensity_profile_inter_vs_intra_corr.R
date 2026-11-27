@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,14 +13,14 @@ library(patchwork)
 ## Load data---------------------
 input <- file.path(data_in,"/04_scale_not_abs_loess_data_log2.csv")
 data <- read_csv(input)
-input2 <- "raw/Subcell_markers_selected.csv"
+input2 <- file.path(annot_dir, "Subcell_markers_selected.csv")
 selected_markers <- read_protti(input2)
 
 ## output data------------------
 corr_output <- file.path(data_in,"/04_4_scaled_intensity_profile_inter_vs_intra_corr.csv")
 corr_output_combined <- file.path(data_in,"/04_4_scaled_intensity_profile_inter_vs_intra_corr_combined.csv")
 
-View(data)
+if (interactive()) View(data)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
@@ -83,7 +86,7 @@ final_ratios <- corr_fractions %>%
   left_join(corr_r_replicates, by = c("Treatment", "Frac_A" = "Fraction")) %>%
   mutate(Ratio = Corr_Rep / abs(Corr_Frac))
 
-View(final_ratios)
+if (interactive()) View(final_ratios)
 
 cor_df_combined <- as.data.frame(cor_matrix) %>%
   rownames_to_column(var = "Sample_A") %>%
@@ -115,7 +118,7 @@ final_ratios_combined <- corr_fractions_combined %>%
   left_join(corr_r_replicates_combined, by = c("Frac_A" = "Fraction")) %>%
   mutate(Ratio = Corr_Rep / abs(Corr_Frac))
 
-View(final_ratios_combined)
+if (interactive()) View(final_ratios_combined)
 
 # save files
 write_csv(final_ratios, corr_output)

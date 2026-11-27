@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -26,7 +29,7 @@ scale_and_count <- function(data) {
     mutate(total_intensity = sum(original_intensity, na.rm = TRUE)) %>% 
     mutate(scaled_intensity = ifelse(total_intensity == 0, 0, original_intensity/total_intensity)) %>%
     ungroup()
-  View(data_scale)
+  if (interactive()) View(data_scale)
   
   # count in how many fractions a protein was identified
   fraction_count <- data_scale %>%
@@ -43,7 +46,7 @@ scale_and_count <- function(data) {
     ungroup() %>% 
     mutate(pct_all = count_identified_all/count_identified_total,
            pct_2 = count_identified_2/count_identified_total)
-  View(count_identified)
+  if (interactive()) View(count_identified)
   
   return(list(data_scale = data_scale, 
               count_identified = count_identified))
@@ -66,7 +69,7 @@ data_impute_scale <- data_impute_scale %>%
     CTRL_intensity = scaled_intensity[treatment == "CTRL"],
     pct_changing = scaled_intensity - CTRL_intensity) %>%
   ungroup()
-View(data_impute_scale)
+if (interactive()) View(data_impute_scale)
 
 ## bring data to matrix format---------------------------------------
 # create matrix
@@ -74,12 +77,12 @@ data_scale_matrix <- data_impute_scale %>%
   dplyr::select(sample, pg_protein_groups, scaled_intensity) %>%
   pivot_wider(names_from = sample, 
               values_from = scaled_intensity)
-View(data_scale_matrix)  
+if (interactive()) View(data_scale_matrix)  
 
 # convert NA to 0
 data_scale_matrix_NA <- data_scale_matrix %>% 
   replace(is.na(.), 0)
-View(data_scale_matrix_NA)
+if (interactive()) View(data_scale_matrix_NA)
 
 data_scale_NA <- data_scale_matrix_NA %>%
   pivot_longer(cols = -pg_protein_groups, 
@@ -91,14 +94,14 @@ data_scale_NA <- data_scale_matrix_NA %>%
     CTRL_intensity = scaled_intensity[treatment == "CTRL"],
     pct_changing = scaled_intensity - CTRL_intensity) %>%
   ungroup()
-View(data_scale_NA)
+if (interactive()) View(data_scale_NA)
 
 # pct changing matrix
 data_pct_changing_matrix <- data_scale_NA %>%
   dplyr::select(sample, pg_protein_groups, pct_changing) %>%
   pivot_wider(names_from = sample, 
               values_from = pct_changing)
-View(data_pct_changing_matrix)
+if (interactive()) View(data_pct_changing_matrix)
 
 ## Save data ---------------------------
 write_csv(data_scale_NA, scale_impute_output)

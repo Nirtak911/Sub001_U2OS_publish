@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Phospho/00_path_definitions.R")
+
 # Load libraries
 library(tidyverse)
 library(protti)
@@ -22,7 +25,7 @@ plot_output_combined <- file.path(data_in, "Plots/02_2_mean_intensity_bargraph_s
 
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                   "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                   "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                    "Frac5" = "#56B4E9", "Frac6" = "#0072B2",
                    "CTRL" = "#abdbe3", "Anis" = "#063970", 
                    "p38" = "#f46d43", "Zaki" = "#d73027",
@@ -49,7 +52,7 @@ custom_theme <- theme(
   legend.title = element_text(size = 14)
 )
 
-View(data)
+if (interactive()) View(data)
 
 data$normalised_intensity <- 2^data$normalised_intensity_log2
 
@@ -62,21 +65,21 @@ data <- data %>%
 
 # generell abundance change
 selected_genes_ab <- data %>%
-  filter(str_detect(gene_PTM_key, "JUND_S100|MAPK14_T180|LARP1_S766|TRIM28_T541|TRIM28_S473|STAT1_S727|RB1_T356|RB1_S249")) %>%
+  filter(str_detect(gene_PTM_key, "JUND_S100_M1|STAT1_S727_M1")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_ab)
 
 # distribution change due to abuncdance change
 selected_genes_dis <- data %>%
-  filter(str_detect(gene_PTM_key, "LARP1_T526|LMNB1_S23_M1|CENPF_S3023_M1|NONO_T450|IGHMBP2_S716_M1|RPS9_S146_M1|SUN1_S48_M1|ITPRIPL2_S78_M1")) %>%
+  filter(str_detect(gene_PTM_key, "LARP1_T526_M2|IGHMBP2_S716_M1|RPS9_S146_M1")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_dis)
 
 # real localisation change
 selected_genes_loc <- data %>%
-  filter(str_detect(gene_PTM_key, "NUMP_214_S678|LMNA_S390_M2|LMNA_S75_M1|NUMBL_S305|GGT7_S83|EFNB3_S268_M1|NUMP98_S1043")) %>%
+  filter(str_detect(gene_PTM_key, "LMNA_S390_M2|NUMBL_S305_M1|GGT7_S83_M2")) %>%
   pull(gene_PTM_key) %>%
   unique()
 print(selected_genes_loc)
@@ -91,7 +94,7 @@ data_filtered <- data
 
 data_filtered$phosphosite <- map_chr(str_split(data_filtered$gene_PTM_key, "_"), 2)
 data_filtered$multi <- map_chr(str_split(data_filtered$gene_PTM_key, "_"), 3)
-View(data_filtered)
+if (interactive()) View(data_filtered)
 
 
 # --- Pre-filter Data and Identify Keys for Plotting ---
@@ -159,7 +162,7 @@ for (current_key in keys_to_plot) {
     ) +
     
     # Facet by treatment to separate the plots
-    facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
     
     # Apply themes and styling
     theme_bw() +
@@ -219,7 +222,7 @@ for (current_key in keys_to_plot) {
     ) +
     
     # Facet by treatment to separate the plots
-    facet_wrap(~treatment, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~treatment, scales = "free_x", nrow = 1, strip.position = "bottom") +
     
     # Apply themes and styling
     theme_bw() +
@@ -251,17 +254,6 @@ combined_intensity_plot1 <- grid.arrange(grobs = intensity_plots[c(1,2,3,4)], nc
 combined_intensity_plot2 <- grid.arrange(grobs = intensity_plots[c(5,6,7,8)], ncol = 2)
 combined_intensity_plot3 <- grid.arrange(grobs = intensity_plots[c(9,10,11,12)], ncol = 2)
 combined_intensity_plot4 <- grid.arrange(grobs = intensity_plots[c(13,14,15,16)], ncol = 2)
-combined_intensity_plot5 <- grid.arrange(grobs = intensity_plots[c(17,18,19,20)], ncol = 2)
-combined_intensity_plot6 <- grid.arrange(grobs = intensity_plots[c(21,22,23,24)], ncol = 2)
-combined_intensity_plot7 <- grid.arrange(grobs = intensity_plots[c(25,26,27,28)], ncol = 2)
-combined_intensity_plot8 <- grid.arrange(grobs = intensity_plots[c(29,30,31,32)], ncol = 2)
-combined_intensity_plot9 <- grid.arrange(grobs = intensity_plots[c(33,34,35,36)], ncol = 2)
-combined_intensity_plot10 <- grid.arrange(grobs = intensity_plots[c(37,38,39,40)], ncol = 2)
-combined_intensity_plot11 <- grid.arrange(grobs = intensity_plots[c(41,42,43,44)], ncol = 2)
-combined_intensity_plot12 <- grid.arrange(grobs = intensity_plots[c(45,46,47,48)], ncol = 2)
-combined_intensity_plot13 <- grid.arrange(grobs = intensity_plots[c(49,50,51,52)], ncol = 2)
-combined_intensity_plot14 <- grid.arrange(grobs = intensity_plots[c(53,1,2,3)], ncol = 2)
-
 
 # Save the combined plots as a PDF file
 ## Save plots --------------------------
@@ -279,25 +271,5 @@ grid.newpage()
 grid.draw(combined_intensity_plot3)
 grid.newpage()
 grid.draw(combined_intensity_plot4)
-grid.newpage()
-grid.draw(combined_intensity_plot5)
-grid.newpage()
-grid.draw(combined_intensity_plot6)
-grid.newpage()
-grid.draw(combined_intensity_plot7)
-grid.newpage()
-grid.draw(combined_intensity_plot8)
-grid.newpage()
-grid.draw(combined_intensity_plot9)
-grid.newpage()
-grid.draw(combined_intensity_plot10)
-grid.newpage()
-grid.draw(combined_intensity_plot11)
-grid.newpage()
-grid.draw(combined_intensity_plot12)
-grid.newpage()
-grid.draw(combined_intensity_plot13)
-grid.newpage()
-grid.draw(combined_intensity_plot14)
 dev.off()
 # 

@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -14,9 +17,9 @@ genes <- file.path(data_in, "01_genes.csv")
 data <- read_csv(input)
 meta <- read_csv(meta)
 genes <- read_csv(genes)
-View(data)
-View(meta)
-View(genes)
+if (interactive()) View(data)
+if (interactive()) View(meta)
+if (interactive()) View(genes)
 
 ## output data -------------------------------------------------------------
 norm_output <- file.path(data_in, "/02_loess_data_log2.csv")
@@ -61,7 +64,7 @@ data_vv_matrix <- data_vv %>%
   dplyr::select(sample, pg_protein_groups, log2_pg_quantity) %>%
   pivot_wider(names_from = sample, 
               values_from = log2_pg_quantity)
-View(data_vv_matrix)
+if (interactive()) View(data_vv_matrix)
 
 # split data_vv by fraction
 FR_list_vv <- data_vv %>% group_split(fraction)
@@ -132,7 +135,7 @@ norm_df_matrix <- norm_df %>%
   dplyr::select(sample, pg_protein_groups, normalised_intensity_log2) %>%
   pivot_wider(names_from = sample, 
               values_from = normalised_intensity_log2)
-View(norm_df_matrix)
+if (interactive()) View(norm_df_matrix)
 
 ## Save data ---------------------------
 write_csv(norm_df, norm_output)

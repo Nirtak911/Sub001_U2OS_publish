@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -10,11 +13,11 @@ library(patchwork)
 ## Load data---------------------
 input <- file.path(data_in,"/4_1_Cluster_pheatmap_scale_data_log2.csv.csv")
 data <- read_csv(input)
-View(data)
+if (interactive()) View(data)
 ## output data------------------
 plot_output <- file.path(data_in,"/Plots/04_3_Profile_plots_cluster_nonimpute.pdf")
 
-View(selected_markers)
+if (interactive()) View(selected_markers)
 ## Definitions------------------
 # Define custom color palette
 custom_colors <- c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
@@ -73,7 +76,7 @@ profile_function <- function(df) {
 
 #Apply the function to each dataframe in the list deeploc
 cluster_list <- map(cluster_list, profile_function)
-View(cluster_list[[1]])
+if (interactive()) View(cluster_list[[1]])
 
 ## Create plots for the Deeploc data-----------------------------------
 # Create an empty list to store the results

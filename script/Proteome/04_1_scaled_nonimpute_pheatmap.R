@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -14,7 +17,7 @@ input<- file.path(data_in,"04_scale_not_abs_loess_data_log2.csv")
 data<- read_csv(input)
 genes <- file.path(data_in, "01_genes.csv")
 genes <- read_csv(genes)
-input2 <- "raw/annotations_hpa_2024-03-05.csv"
+input2 <- file.path(annot_dir, "annotations_hpa_2024-03-05.csv")
 deeploc <- read_csv(input2)
 
 ## output data  ---------------------------
@@ -61,7 +64,7 @@ pheatmap_col <- data %>%
 # define colors for the annotations
 annotation_colors=list( treatment = c("CTRL" = "#abdbe3", "Anis" = "#063970", "Zaki" = "#f46d43", "p38" = "#d73027"),
                         fraction = c("Frac1" = "#E7872B", "Frac2" = "#F2B341", 
-                                     "Frac3" = "#F0E442", "Frac4" = "#009E73", 
+                                     "Frac3" = "#B5A800", "Frac4" = "#009E73", 
                                      "Frac5" = "#56B4E9", "Frac6" = "#0072B2"),
                         #"total" = "#999999"),
                         Subcell_location = c("NA"  = "lightgrey",                    
@@ -122,7 +125,7 @@ annot_row <- data.frame(
 res <- data %>% 
   left_join(annot_row, by = "pg_protein_groups") %>%
   left_join(genes,by="pg_protein_groups") 
-View(res)
+if (interactive()) View(res)
 
 pheatmap_row <- pheatmap_row %>% rownames_to_column(var = "pg_protein_groups") %>%
   left_join(annot_row, by = "pg_protein_groups") %>%
@@ -207,7 +210,7 @@ gse_comb<-bind_rows(list("Cluster 1"= clusters_gsea$cluster1_genes@result,
                     # "Cluster 7"= clusters_gsea$cluster7_genes@result),
                     .id="cluster_no" )
   
-View(gse_comb)
+if (interactive()) View(gse_comb)
 
 # add the information for which cell_line this is the gsea analysis
 gse_comb$cell_line<-pheatmap_col$cell_line[1]

@@ -1,3 +1,6 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
 library(protti)
@@ -8,9 +11,9 @@ library(htmlwidgets)
 library(stringi)
 
 ## Load data---------------------
-input <- file.path(raw_data, "20250221_110126_ProteinGroups_KS_normal (Normal).tsv")
+input <- report_file  # defined in 00_path_definitions.R
 data <- read_protti(input)
-View(data)
+if (interactive()) View(data)
 
 ## output data------------------
 filter_output <- file.path(data_in, "/01_data_log2.csv")
@@ -50,7 +53,7 @@ data_filter$pg_protein_groups <- str_replace_all(data_filter$pg_protein_groups, 
 
 #log2 transform PTM Quantity column
 data_filter$log2_pg_quantity <- log2(data_filter$pg_quantity)
-View(data_filter)
+if (interactive()) View(data_filter)
 
 # data_filter matrix
 data_filter_matrix <- data_filter %>% 
@@ -58,13 +61,13 @@ data_filter_matrix <- data_filter %>%
   pivot_wider(names_from = sample, 
               values_from = log2_pg_quantity,
               values_fn = list(log2_pg_quantity = ~ mean(.x, na.rm = TRUE)))
-View(data_filter_matrix)
+if (interactive()) View(data_filter_matrix)
 
 # get metadata
 meta_data <- data_filter %>% 
   dplyr::select(sample, cell_line, treatment, fraction, r_replicate, r_condition, r_file_name) %>%
   distinct()
-View(meta_data)
+if (interactive()) View(meta_data)
 
 # get pg_genes and corresponding pg_protein_groups
 genes <- data_filter %>% 
@@ -79,7 +82,7 @@ data_filter_output <- data_filter_matrix %>%
                       left_join(meta_data, by = "sample") %>%
                       mutate(pg_quantity = 2^log2_pg_quantity) %>%
                       left_join(genes, by = "pg_protein_groups")
-View(data_filter_output)
+if (interactive()) View(data_filter_output)
 
 ##calculate and plot CVs
 #CV table
@@ -90,7 +93,7 @@ t1_CV <- qc_cvs(
   intensity = pg_quantity,
   plot = FALSE
 )
-View(t1_CV)
+if (interactive()) View(t1_CV)
 
 ##plot identifications per sample
 #IDs per sample table
@@ -103,7 +106,7 @@ t1_protein_IDs <- qc_ids(
   title = "Protein identifications per sample",
   plot = FALSE
 )
-View(t1_protein_IDs)
+if (interactive()) View(t1_protein_IDs)
 
 
 ## Split data frame by cell line------------------------------

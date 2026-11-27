@@ -1,5 +1,9 @@
+# paths (data_in, raw_data, annot_dir); run from the project root
+source("script/Proteome/00_path_definitions.R")
+
 #load libraries
 library(tidyverse)
+library(protti)
 library(DAPAR)
 library(MSnbase)
 library(imp4p)
@@ -11,8 +15,8 @@ meta <- file.path(data_in, "01_meta_data.csv")
 data_input <- read_csv(input)
 meta_input <- read_csv(meta)
 
-View(data_input)
-View(meta_input)
+if (interactive()) View(data_input)
+if (interactive()) View(meta_input)
 
 ## output data -------------------------------------------------------------
 impute_output <- file.path(data_in, "/03_imputeFRsep_data_log2.csv")
@@ -78,7 +82,7 @@ for (df in FR_list_norm) {
   
   
   # Imputation
-  prot_imp_KNN<-wrapper.impute.KNN(obj, 15) # imputes only partially observed missing values
+  prot_imp_KNN<-wrapper.impute.KNN(obj, 15) # imputes only partially observed missing values --> Those are not used for Orbitrap Astral data!
   prot_imp_2 <- wrapper.impute.detQuant(prot_imp_KNN, na.type = c("Missing MEC", "Missing POV"), qval = 0.025, factor = 1) #missing in entire condition
   
   data_impute <- prot_imp_2@assayData[["exprs"]] %>%
@@ -95,7 +99,7 @@ for (df in FR_list_norm) {
     # Store the result in the result list
   FR_list_impute[[length(FR_list_impute) + 1]] <- data_impute_long
 }
-View(FR_list_impute[[1]])
+if (interactive()) View(FR_list_impute[[1]])
 
 # display intensity distribution after imputation
 # Create an empty list to store plots
@@ -117,7 +121,7 @@ FR_list_impute_plots
 
 # combine the imputed data list
 data_impute <- bind_rows(FR_list_impute)
-View(data_impute) 
+if (interactive()) View(data_impute) 
   
 # create matrix
 data_impute_matrix <- data_impute %>% 
@@ -125,7 +129,7 @@ data_impute_matrix <- data_impute %>%
   pivot_wider(names_from = sample, 
               values_from = imputed_intensity_log2) 
 
-View(data_impute_matrix)
+if (interactive()) View(data_impute_matrix)
 
 ## Save data ---------------------------
 write.csv(data_impute, impute_output)

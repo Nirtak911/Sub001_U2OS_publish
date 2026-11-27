@@ -1,0 +1,651 @@
+UniprotID;Gene.name;hsap_location_marker
+P49588;AARS;Cytosol
+Q5JTZ9;AARS2;Mitochondria
+O75027;ABCB7;Mitochondria
+P09110;ACAA1;Peroxisome
+P42765;ACAA2;Mitochondria
+Q9UKU7;ACAD8;Mitochondria
+P16219;ACADS;Mitochondria
+P45954;ACADSB;Mitochondria
+P24752;ACAT1;Mitochondria
+Q99798;ACO2;Mitochondria
+O14734;ACOT8;Peroxisome
+Q15067;ACOX1;Peroxisome
+O15254;ACOX3;Peroxisome
+P60709;ACTB;Actin cytoskeleton
+Q562R1;ACTBL2;Actin cytoskeleton
+P63261;ACTG1;Actin cytoskeleton
+P12814;ACTN1;Actin cytoskeleton
+Q9NZ32;ACTR10;Actin cytoskeleton
+P61160;ACTR2;Actin cytoskeleton
+P61158;ACTR3;Actin cytoskeleton
+P78536;ADAM17;Plasma membrane
+Q53H12;AGK;Mitochondria
+O00116;AGPS;Peroxisome
+O00468;AGRN;Extracell matrix
+P27144;AK4;Mitochondria
+P30837;ALDH1B1;Mitochondria
+Q3SY69;ALDH1L2;Mitochondria
+P05091;ALDH2;Mitochondria
+P30038;ALDH4A1;Mitochondria
+P51649;ALDH5A1;Mitochondria
+Q2TAA5;ALG11;Endoplasmic Reticulum
+P07355;ANXA2;Extracell matrix
+P07741;APRT;Cytosol
+O15143;ARPC1B;Actin cytoskeleton
+O15144;ARPC2;Actin cytoskeleton
+O15145;ARPC3;Actin cytoskeleton
+P59998;ARPC4;Actin cytoskeleton
+O15511;ARPC5;Actin cytoskeleton
+Q9BPX5;ARPC5L;Actin cytoskeleton
+P15289;ARSA;Lysosome
+Q12797;ASPH;Endoplasmic Reticulum
+Q9NT62;ATG3;Cytosol
+P05023;ATP1A1;Plasma membrane
+P05026;ATP1B1;Plasma membrane
+P16615;ATP2A2;Endoplasmic Reticulum
+P20020;ATP2B1;Plasma membrane
+P36542;ATP5F1C;Mitochondria
+P30049;ATP5F1D;Mitochondria
+O75964;ATP5MG;Mitochondria
+O75947;ATP5PD;Mitochondria
+P18859;ATP5PF;Mitochondria
+O94766;B3GAT3;Golgi Apparatus
+Q6Y288;B3GLCT;Endoplasmic Reticulum
+Q9NY97;B3GNT2;Golgi Apparatus
+Q8IXM2;BAP18;Nucleus
+Q9NRL2;BAZ1A;Nucleus
+P50895;BCAM;Plasma membrane
+O15382;BCAT2;Mitochondria
+O14874;BCKDK;Mitochondria
+P21810;BGN;Extracell matrix
+P13497;BMP1;Extracell matrix
+Q8NFC6;BOD1L1;Chromatin
+Q15059;BRD3;Nucleus
+O60885;BRD4;Chromatin
+O14981;BTAF1;Nucleus
+P27797;CALR;Extracell matrix
+P27824;CANX;Endoplasmic Reticulum
+Q01518;CAP1;Actin cytoskeleton
+P52907;CAPZA1;Actin cytoskeleton
+P47755;CAPZA2;Actin cytoskeleton
+P47756;CAPZB;Actin cytoskeleton
+P49589;CARS;Cytosol
+P16152;CBR1;Cytosol
+P48509;CD151;Plasma membrane
+Q16543;CDC37;Cytosol
+P19022;CDH2;Plasma membrane
+Q9NXV6;CDKN2AIP;Nucleus
+Q6UWW8;CES3;Endoplasmic Reticulum
+P23528;CFL1;Actin cytoskeleton
+Q9Y281;CFL2;Actin cytoskeleton
+Q13111;CHAF1A;Nucleus
+O14647;CHD2;Nucleus
+Q9P2E5;CHPF2;Golgi Apparatus
+Q9H6B4;CLMP;Plasma membrane
+Q16740;CLPP;Mitochondria
+Q8N0X4;CLYBL;Mitochondria
+Q96KP4;CNDP2;Cytosol
+P09543;CNP;Plasma membrane
+Q9BT09;CNPY3;Endoplasmic Reticulum
+Q99715;COL12A1;Extracell matrix
+P39059;COL15A1;Extracell matrix
+Q07092;COL16A1;Extracell matrix
+P39060;COL18A1;Extracell matrix
+P02452;COL1A1;Extracell matrix
+Q8IZC6;COL27A1;Extracell matrix
+P02461;COL3A1;Extracell matrix
+P02462;COL4A1;Extracell matrix
+P08572;COL4A2;Extracell matrix
+P53420;COL4A4;Extracell matrix
+P29400;COL4A5;Extracell matrix
+P20908;COL5A1;Extracell matrix
+P05997;COL5A2;Extracell matrix
+P12109;COL6A1;Extracell matrix
+Q02388;COL7A1;Extracell matrix
+P27658;COL8A1;Extracell matrix
+Q8NBJ5;COLGALT1;Endoplasmic Reticulum
+Q5HYK3;COQ5;Mitochondria
+Q8NI60;COQ8A;Mitochondria
+O75208;COQ9;Mitochondria
+Q9BR76;CORO1B;Actin cytoskeleton
+P13073;COX4I1;Mitochondria
+P10606;COX5B;Mitochondria
+P09669;COX6C;Mitochondria
+O75976;CPD;Plasma membrane
+P14384;CPM;Plasma membrane
+P23786;CPT2;Mitochondria
+Q9UKG9;CROT;Peroxisome
+O75718;CRTAP;Extracell matrix
+O75390;CS;Mitochondria
+Q01459;CTBS;Lysosome
+P49711;CTCF;Nucleus
+P35222;CTNNB1;Plasma membrane
+P10619;CTSA;Lysosome
+P07858;CTSB;Lysosome
+P07339;CTSD;Lysosome
+P08574;CYC1;Mitochondria
+Q16850;CYP51A1;Endoplasmic Reticulum
+P11182;DBT;Mitochondria
+Q9UJW0;DCTN4;Actin cytoskeleton
+Q9H773;DCTPP1;Cytosol
+P39656;DDOST;Endoplasmic Reticulum
+Q9NVP1;DDX18;Chromatin
+Q9NR30;DDX21;Nucleolus
+Q9GZR7;DDX24;Nucleus
+Q9BQ39;DDX50;Nucleolus
+Q9NUI1;DECR2;Peroxisome
+P98153;DGCR2;Plasma membrane
+Q9UBM7;DHCR7;Endoplasmic Reticulum
+Q02127;DHODH;Mitochondria
+Q6IAN0;DHRS7B;Endoplasmic Reticulum
+P10515;DLAT;Mitochondria
+P09622;DLD;Mitochondria
+Q99766;DMAC2L;Mitochondria
+O00115;DNASE2;Lysosome
+Q5QJE6;DNTTIP2;Nucleus
+Q9BQC3;DPH2;Cytosol
+Q9H2P9;DPH5;Cytosol
+Q9P2X0;DPM3;Endoplasmic Reticulum
+Q9UHL4;DPP7;Lysosome
+Q12882;DPYD;Cytosol
+P30084;ECHS1;Mitochondria
+P42126;ECI1;Mitochondria
+Q92611;EDEM1;Endoplasmic Reticulum
+Q12805;EFEMP1;Extracell matrix
+Q08426;EHHADH;Peroxisome
+Q9NR50;EIF2B3;Cytosol
+O75822;EIF3J;Cytosol
+O60841;EIF5B;Cytosol
+Q9P0I2;EMC3;Endoplasmic Reticulum
+P07099;EPHX1;Endoplasmic Reticulum
+Q96DZ1;ERLEC1;Endoplasmic Reticulum
+O75477;ERLIN1;Endoplasmic Reticulum
+Q7Z2K6;ERMP1;Endoplasmic Reticulum
+P30040;ERP29;Endoplasmic Reticulum
+Q9BS26;ERP44;Endoplasmic Reticulum
+P13804;ETFA;Mitochondria
+Q16134;ETFDH;Mitochondria
+P16930;FAH;Cytosol
+O75063;FAM20B;Golgi Apparatus
+Q8WVX9;FAR1;Peroxisome
+P23142;FBLN1;Extracell matrix
+Q9UBX5;FBLN5;Extracell matrix
+P35555;FBN1;Extracell matrix
+P35556;FBN2;Extracell matrix
+P10109;FDX1;Mitochondria
+P22570;FDXR;Mitochondria
+P22830;FECH;Mitochondria
+P26885;FKBP2;Endoplasmic Reticulum
+O95302;FKBP9;Endoplasmic Reticulum
+O75369;FLNB;Actin cytoskeleton
+O75955;FLOT1;Plasma membrane
+Q14254;FLOT2;Plasma membrane
+P02751;FN1;Extracell matrix
+Q9HA64;FN3KRP;Cytosol
+P85037;FOXK1;Nucleus
+Q16658;FSCN1;Actin cytoskeleton
+P04066;FUCA1;Lysosome
+Q9BYC5;FUT8;Golgi Apparatus
+P10253;GAA;Lysosome
+Q14376;GALE;Cytosol
+P51570;GALK1;Cytosol
+Q96C23;GALM;Cytosol
+P34059;GALNS;Lysosome
+Q10472;GALNT1;Golgi Apparatus
+Q8NCL4;GALNT6;Golgi Apparatus
+Q86SF2;GALNT7;Golgi Apparatus
+P22102;GART;Cytosol
+Q86YP4;GATAD2A;Nucleus
+Q8WXI9;GATAD2B;Nucleus
+O75879;GATB;Mitochondria
+Q04446;GBE1;Cytosol
+P23434;GCSH;Mitochondria
+Q7L5D6;GET4;Cytosol
+Q3B7J2;GFOD2;Extracell matrix
+Q04760;GLO1;Cytosol
+P00367;GLUD1;Mitochondria
+Q9P2T1;GMPR2;Cytosol
+P08754;GNAI3;Plasma membrane
+P63218;GNG5;Plasma membrane
+P15586;GNS;Lysosome
+Q8TBA6;GOLGA5;Golgi Apparatus
+Q14789;GOLGB1;Golgi Apparatus
+O00461;GOLIM4;Golgi Apparatus
+O43292;GPAA1;Endoplasmic Reticulum
+Q86UL3;GPAT4;Endoplasmic Reticulum
+P43304;GPD2;Mitochondria
+Q9NPR9;GPR108;Plasma membrane
+Q7Z2K8;GPRIN1;Plasma membrane
+P48637;GSS;Cytosol
+P30711;GSTT1;Cytosol
+P35269;GTF2F1;Nucleus
+P13984;GTF2F2;Nucleus
+P07305;H1F0;Nucleus
+Q92522;H1FX;Nucleus
+P84243;H3F3A;Nucleus
+O95479;H6PD;Endoplasmic Reticulum
+P40939;HADHA;Mitochondria
+P06865;HEXA;Lysosome
+P07686;HEXB;Lysosome
+Q6NVY1;HIBCH;Mitochondria
+P16401;HIST1H1B;Nucleus
+P16403;HIST1H1C;Chromatin
+P10412;HIST1H1E;Chromatin
+P68431;HIST1H3A;Nucleus
+P62805;HIST1H4A;Nucleus
+P26583;HMGB2;Chromatin
+O15347;HMGB3;Chromatin
+Q5SSJ5;HP1BP3;Nucleus
+P00492;HPRT1;Cytosol
+Q7LGA3;HS2ST1;Golgi Apparatus
+P51659;HSD17B4;Peroxisome
+P34932;HSPA4;Cytosol
+P98160;HSPG2;Extracell matrix
+P05362;ICAM1;Plasma membrane
+P50213;IDH3A;Mitochondria
+O43837;IDH3B;Mitochondria
+P51553;IDH3G;Mitochondria
+P35475;IDUA;Lysosome
+Q9NV31;IMP3;Nucleus
+P29218;IMPA1;Cytosol
+O14732;IMPA2;Cytosol
+Q9NX62;IMPAD1;Golgi Apparatus
+P17301;ITGA2;Plasma membrane
+P08648;ITGA5;Plasma membrane
+P23229;ITGA6;Plasma membrane
+P05556;ITGB1;Plasma membrane
+P18084;ITGB5;Plasma membrane
+Q14571;ITPR2;Endoplasmic Reticulum
+P26440;IVD;Mitochondria
+Q8N5M9;JAGN1;Endoplasmic Reticulum
+Q9H7Z6;KAT8;Chromatin
+Q7Z4H8;KDELC2;Endoplasmic Reticulum
+O60341;KDM1A;Nucleus
+Q7LBC6;KDM3B;Nucleus
+Q14807;KIF22;Nucleus
+O95239;KIF4A;Nucleus
+P32004;L1CAM;Plasma membrane
+P24043;LAMA2;Extracell matrix
+Q16787;LAMA3;Extracell matrix
+O15230;LAMA5;Extracell matrix
+P07942;LAMB1;Extracell matrix
+P55268;LAMB2;Extracell matrix
+Q13751;LAMB3;Extracell matrix
+P11047;LAMC1;Extracell matrix
+Q9Y6N6;LAMC3;Extracell matrix
+Q15031;LARS2;Mitochondria
+Q14847;LASP1;Actin cytoskeleton
+Q9Y2U8;LEMD3;Nucleus
+O95202;LETM1;Mitochondria
+P09382;LGALS1;Extracell matrix
+Q08380;LGALS3BP;Extracell matrix
+P38571;LIPA;Lysosome
+Q9NUN5;LMBRD1;Lysosome
+P02545;LMNA;Nucleus
+P20700;LMNB1;Nucleus
+Q03252;LMNB2;Nucleus
+Q9UIQ6;LNPEP;Plasma membrane
+Q86WA8;LONP2;Peroxisome
+Q9Y4K0;LOXL2;Extracell matrix
+Q643R3;LPCAT4;Endoplasmic Reticulum
+Q92604;LPGAT1;Endoplasmic Reticulum
+P06858;LPL;Extracell matrix
+P48449;LSS;Endoplasmic Reticulum
+Q14766;LTBP1;Extracell matrix
+P51884;LUM;Extracell matrix
+Q9NX58;LYAR;Nucleolus
+P33908;MAN1A1;Golgi Apparatus
+O60476;MAN1A2;Golgi Apparatus
+Q16706;MAN2A1;Golgi Apparatus
+O00754;MAN2B1;Lysosome
+O00462;MANBA;Lysosome
+P31153;MAT2A;Cytosol
+P23368;ME2;Mitochondria
+P26572;MGAT1;Golgi Apparatus
+Q10469;MGAT2;Golgi Apparatus
+Q5JRA6;MIA3;Endoplasmic Reticulum
+Q9UNW1;MINPP1;Endoplasmic Reticulum
+P46013;MKI67;Chromatin
+P22033;MMUT;Mitochondria
+Q13724;MOGS;Endoplasmic Reticulum
+O95563;MPC2;Mitochondria
+P34949;MPI;Cytosol
+Q9UBG0;MRC2;Plasma membrane
+P43246;MSH2;Chromatin
+P20585;MSH3;Nucleus
+P52701;MSH6;Chromatin
+P00403;MT-CO2;Mitochondria
+O94776;MTA2;Nucleus
+P13995;MTHFD2;Mitochondria
+P46199;MTIF2;Mitochondria
+P53602;MVD;Cytosol
+Q96S97;MYADM;Plasma membrane
+Q4G0N4;NADK2;Mitochondria
+Q6IA69;NADSYN1;Cytosol
+P17050;NAGA;Lysosome
+P54802;NAGLU;Lysosome
+Q9NR45;NANS;Cytosol
+Q6XQN6;NAPRT;Cytosol
+P18440;NAT1;Cytosol
+Q9H0A0;NAT10;Nucleolus
+O60934;NBN;Nucleus
+P42695;NCAPD3;Nucleus
+O95299;NDUFA10;Mitochondria
+O43678;NDUFA2;Mitochondria
+O95167;NDUFA3;Mitochondria
+O43676;NDUFB3;Mitochondria
+O75306;NDUFS2;Mitochondria
+O43181;NDUFS4;Mitochondria
+O75380;NDUFS6;Mitochondria
+O75251;NDUFS7;Mitochondria
+O00217;NDUFS8;Mitochondria
+P19404;NDUFV2;Mitochondria
+Q92692;NECTIN2;Plasma membrane
+Q7Z3B1;NEGR1;Plasma membrane
+Q14112;NID2;Extracell matrix
+Q13423;NNT;Mitochondria
+Q9Y3T9;NOC2L;Nucleolus
+Q9H8H0;NOL11;Nucleolus
+Q9NPE3;NOP10;Nucleus
+O00567;NOP56;Nucleolus
+Q9Y639;NPTN;Plasma membrane
+O43847;NRDC;Cytosol
+O14786;NRP1;Plasma membrane
+P49902;NT5C2;Cytosol
+P21589;NT5E;Plasma membrane
+O75694;NUP155;Nucleus
+Q8N1F7;NUP93;Nucleus
+Q96E22;NUS1;Endoplasmic Reticulum
+O15381;NVL;Nucleolus
+P04181;OAT;Mitochondria
+Q02218;OGDH;Mitochondria
+O14841;OPLAH;Cytosol
+Q13415;ORC1;Nucleus
+Q13416;ORC2;Nucleus
+Q9UBD5;ORC3;Chromatin
+Q96BN8;OTULIN;Cytosol
+P55809;OXCT1;Mitochondria
+Q32P28;P3H1;Extracell matrix
+O15460;P4HA2;Endoplasmic Reticulum
+P07237;P4HB;Endoplasmic Reticulum
+Q16822;PCK2;Mitochondria
+O00330;PDHX;Mitochondria
+P30101;PDIA3;Endoplasmic Reticulum
+P13667;PDIA4;Endoplasmic Reticulum
+Q14554;PDIA5;Endoplasmic Reticulum
+Q15118;PDK1;Mitochondria
+Q15120;PDK3;Mitochondria
+Q9P0J1;PDP1;Mitochondria
+Q29RF7;PDS5A;Nucleus
+Q9NTI5;PDS5B;Nucleus
+Q9BY49;PECR;Peroxisome
+O43933;PEX1;Peroxisome
+O96011;PEX11B;Peroxisome
+O75381;PEX14;Peroxisome
+Q13608;PEX6;Peroxisome
+P07737;PFN1;Actin cytoskeleton
+O95336;PGLS;Cytosol
+P36871;PGM1;Cytosol
+O95394;PGM3;Cytosol
+A6NDG6;PGP;Cytosol
+O43175;PHGDH;Cytosol
+Q9NRX4;PHPT1;Cytosol
+O14832;PHYH;Peroxisome
+Q96S52;PIGS;Endoplasmic Reticulum
+Q5JRX3;PITRM1;Mitochondria
+Q99569;PKP4;Plasma membrane
+Q8NCC3;PLA2G15;Lysosome
+Q03405;PLAUR;Plasma membrane
+Q02809;PLOD1;Endoplasmic Reticulum
+O00469;PLOD2;Endoplasmic Reticulum
+O60568;PLOD3;Endoplasmic Reticulum
+Q04941;PLP2;Plasma membrane
+Q9UIW2;PLXNA1;Plasma membrane
+O15031;PLXNB2;Plasma membrane
+Q10713;PMPCA;Mitochondria
+O75439;PMPCB;Mitochondria
+Q9H488;POFUT1;Endoplasmic Reticulum
+Q9H9Y6;POLR1B;Nucleolus
+P24928;POLR2A;Nucleus
+O00411;POLRMT;Mitochondria
+P16435;POR;Endoplasmic Reticulum
+Q9HAB8;PPCS;Cytosol
+P30405;PPIF;Mitochondria
+P49593;PPM1F;Cytosol
+Q9UPN7;PPP6R1;Cytosol
+P32119;PRDX2;Cytosol
+P60891;PRPS1;Cytosol
+P07602;PSAP;Lysosome
+Q9Y617;PSAT1;Cytosol
+O75475;PSIP1;Nucleus
+P25786;PSMA1;Proteasome
+P25787;PSMA2;Proteasome
+P25789;PSMA4;Proteasome
+P28066;PSMA5;Proteasome
+P60900;PSMA6;Proteasome
+O14818;PSMA7;Proteasome
+P20618;PSMB1;Proteasome
+P49721;PSMB2;Proteasome
+P49720;PSMB3;Proteasome
+P28070;PSMB4;Proteasome
+P28072;PSMB6;Proteasome
+Q99436;PSMB7;Proteasome
+P28062;PSMB8;Proteasome
+P62191;PSMC1;Proteasome
+P35998;PSMC2;Proteasome
+P43686;PSMC4;Proteasome
+Q99460;PSMD1;Proteasome
+O75832;PSMD10;Proteasome
+O00231;PSMD11;Proteasome
+O00232;PSMD12;Proteasome
+Q9UNM6;PSMD13;Proteasome
+O00487;PSMD14;Proteasome
+Q13200;PSMD2;Proteasome
+O43242;PSMD3;Proteasome
+P55036;PSMD4;Proteasome
+Q15008;PSMD6;Proteasome
+P51665;PSMD7;Proteasome
+P48556;PSMD8;Proteasome
+Q06323;PSME1;Proteasome
+Q9UL46;PSME2;Proteasome
+P61289;PSME3;Proteasome
+Q8WXF1;PSPC1;Nucleolus
+Q15262;PTPRK;Plasma membrane
+Q92626;PXDN;Extracell matrix
+Q9NR77;PXMP2;Peroxisome
+Q9Y6I8;PXMP4;Peroxisome
+P32322;PYCR1;Mitochondria
+Q9NXS2;QPCTL;Golgi Apparatus
+Q15274;QPRT;Cytosol
+O60216;RAD21;Nucleus
+P11234;RALB;Plasma membrane
+Q5T160;RARS2;Mitochondria
+Q15293;RCN1;Endoplasmic Reticulum
+Q8TC12;RDH11;Endoplasmic Reticulum
+Q96HR9;REEP6;Endoplasmic Reticulum
+P35250;RFC2;Nucleus
+P40938;RFC3;Nucleus
+P35249;RFC4;Nucleus
+P40937;RFC5;Nucleus
+P84095;RHOG;Plasma membrane
+Q5UIP0;RIF1;Chromatin
+Q96AT9;RPE;Cytosol
+P27635;RPL10;Ribosome
+P62906;RPL10A;Ribosome
+P30050;RPL12;Ribosome
+P26373;RPL13;Ribosome
+P40429;RPL13A;Ribosome
+P50914;RPL14;Ribosome
+P61313;RPL15;Ribosome
+Q07020;RPL18;Ribosome
+Q02543;RPL18A;Ribosome
+P84098;RPL19;Ribosome
+P46778;RPL21;Ribosome
+P35268;RPL22;Ribosome
+P62829;RPL23;Ribosome
+P62750;RPL23A;Ribosome
+P83731;RPL24;Ribosome
+P61353;RPL27;Ribosome
+P46776;RPL27A;Ribosome
+P46779;RPL28;Ribosome
+P47914;RPL29;Ribosome
+P39023;RPL3;Ribosome
+P62888;RPL30;Ribosome
+P62899;RPL31;Ribosome
+P62910;RPL32;Ribosome
+P49207;RPL34;Ribosome
+P42766;RPL35;Ribosome
+P18077;RPL35A;Ribosome
+Q9Y3U8;RPL36;Ribosome
+P61513;RPL37A;Ribosome
+P63173;RPL38;Ribosome
+P36578;RPL4;Ribosome
+P46777;RPL5;Ribosome
+Q02878;RPL6;Ribosome
+P18124;RPL7;Ribosome
+P62424;RPL7A;Ribosome
+P62917;RPL8;Ribosome
+P32969;RPL9;Ribosome
+P05388;RPLP0;Ribosome
+P05386;RPLP1;Ribosome
+P05387;RPLP2;Ribosome
+P04843;RPN1;Endoplasmic Reticulum
+P62280;RPS11;Ribosome
+P25398;RPS12;Ribosome
+P62277;RPS13;Ribosome
+P62263;RPS14;Ribosome
+P62841;RPS15;Ribosome
+P62244;RPS15A;Ribosome
+P62249;RPS16;Ribosome
+P62269;RPS18;Ribosome
+P39019;RPS19;Ribosome
+P15880;RPS2;Ribosome
+P60866;RPS20;Ribosome
+P63220;RPS21;Ribosome
+P62266;RPS23;Ribosome
+P62851;RPS25;Ribosome
+P62854;RPS26;Ribosome
+P42677;RPS27;Ribosome
+P62857;RPS28;Ribosome
+P62273;RPS29;Ribosome
+P23396;RPS3;Ribosome
+P61247;RPS3A;Ribosome
+P62701;RPS4X;Ribosome
+P46782;RPS5;Ribosome
+P62753;RPS6;Ribosome
+P62081;RPS7;Ribosome
+P62241;RPS8;Ribosome
+P46781;RPS9;Ribosome
+P08865;RPSA;Ribosome
+O43818;RRP9;Nucleolus
+P49591;SARS;Cytosol
+Q01826;SATB1;Nucleus
+Q14108;SCARB2;Lysosome
+O43819;SCO2;Mitochondria
+P31040;SDHA;Mitochondria
+P61619;SEC61A1;Endoplasmic Reticulum
+P60468;SEC61B;Endoplasmic Reticulum
+Q99442;SEC62;Endoplasmic Reticulum
+Q9UGP8;SEC63;Endoplasmic Reticulum
+P50452;SERPINB8;Cytosol
+P50454;SERPINH1;Endoplasmic Reticulum
+O15047;SETD1A;Chromatin
+O95470;SGPL1;Endoplasmic Reticulum
+O43765;SGTA;Cytosol
+Q8NBJ9;SIDT2;Lysosome
+Q96ST3;SIN3A;Nucleolus
+P53007;SLC25A1;Mitochondria
+O43808;SLC25A17;Peroxisome
+Q6NUK1;SLC25A24;Mitochondria
+Q6P1M0;SLC27A4;Endoplasmic Reticulum
+P11166;SLC2A1;Plasma membrane
+Q8NEW0;SLC30A7;Golgi Apparatus
+O00400;SLC33A1;Endoplasmic Reticulum
+Q13433;SLC39A6;Plasma membrane
+P30825;SLC7A1;Plasma membrane
+Q01650;SLC7A5;Plasma membrane
+O60264;SMARCA5;Nucleus
+Q92922;SMARCC1;Nucleus
+Q14683;SMC1A;Chromatin
+O95347;SMC2;Chromatin
+Q9UQE7;SMC3;Chromatin
+Q9NTJ3;SMC4;Chromatin
+Q96SB8;SMC6;Nucleus
+A6NHR9;SMCHD1;Chromatin
+Q9H4F8;SMOC1;Extracell matrix
+P52788;SMS;Cytosol
+O00161;SNAP23;Plasma membrane
+P55769;SNU13;Nucleus
+Q13573;SNW1;Nucleus
+Q15005;SPCS2;Endoplasmic Reticulum
+P61009;SPCS3;Endoplasmic Reticulum
+Q08629;SPOCK1;Extracell matrix
+O15269;SPTLC1;Endoplasmic Reticulum
+O15270;SPTLC2;Endoplasmic Reticulum
+Q9Y6N5;SQOR;Mitochondria
+P19623;SRM;Cytosol
+P08240;SRPRA;Endoplasmic Reticulum
+P43307;SSR1;Endoplasmic Reticulum
+Q08945;SSRP1;Chromatin
+P27105;STOM;Plasma membrane
+Q8TCJ2;STT3B;Endoplasmic Reticulum
+Q12846;STX4;Plasma membrane
+P53597;SUCLG1;Mitochondria
+Q9Y5B9;SUPT16H;Chromatin
+O43760;SYNGR2;Plasma membrane
+P37837;TALDO1;Cytosol
+Q9Y4P3;TBL2;Endoplasmic Reticulum
+P23193;TCEA1;Nucleus
+Q9NZ01;TECR;Endoplasmic Reticulum
+Q15554;TERF2;Nucleus
+P01137;TGFB1;Extracell matrix
+P61812;TGFB2;Extracell matrix
+Q15582;TGFBI;Extracell matrix
+Q96FV9;THOC1;Nucleus
+Q8NI27;THOC2;Nucleus
+Q13769;THOC5;Nucleus
+P62072;TIMM10;Mitochondria
+Q9Y5L4;TIMM13;Mitochondria
+O60830;TIMM17B;Mitochondria
+O14925;TIMM23;Mitochondria
+O43615;TIMM44;Mitochondria
+Q3ZCQ8;TIMM50;Mitochondria
+Q9Y5J9;TIMM8B;Mitochondria
+Q9Y5J7;TIMM9;Mitochondria
+Q9Y4G6;TLN2;Actin cytoskeleton
+Q8N9M5;TMEM102;Plasma membrane
+Q9NW97;TMEM51;Plasma membrane
+P28289;TMOD1;Actin cytoskeleton
+Q9NYL9;TMOD3;Actin cytoskeleton
+Q9H3N1;TMX1;Endoplasmic Reticulum
+Q96JJ7;TMX3;Endoplasmic Reticulum
+O96008;TOMM40;Mitochondria
+O94826;TOMM70;Mitochondria
+P11387;TOP1;Nucleolus
+P11388;TOP2A;Nucleus
+P09493;TPM1;Actin cytoskeleton
+P06753;TPM3;Actin cytoskeleton
+P67936;TPM4;Actin cytoskeleton
+O14773;TPP1;Lysosome
+P43897;TSFM;Mitochondria
+Q13630;TSTA3;Cytosol
+P49411;TUFM;Mitochondria
+O95881;TXNDC12;Endoplasmic Reticulum
+Q9BRA2;TXNDC17;Cytosol
+Q8NBS9;TXNDC5;Endoplasmic Reticulum
+P19971;TYMP;Cytosol
+Q3KQV9;UAP1L1;Cytosol
+A0AVT1;UBA6;Cytosol
+Q8NBM4;UBAC2;Endoplasmic Reticulum
+P61081;UBE2M;Cytosol
+P31930;UQCRC1;Mitochondria
+P22695;UQCRC2;Mitochondria
+P47985;UQCRFS1;Mitochondria
+P07919;UQCRH;Mitochondria
+Q9BVJ6;UTP14A;Nucleolus
+Q969X6;UTP4;Chromatin
+P46939;UTRN;Plasma membrane
+Q8NBZ7;UXS1;Golgi Apparatus
+P18887;XRCC1;Nucleus
+P25490;YY1;Nucleus

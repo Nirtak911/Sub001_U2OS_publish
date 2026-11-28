@@ -32,5 +32,7 @@ annot_dir <- raw_root
 script <- "script/Proteome"
 
 # create output folders if they do not exist yet
-dir.create(file.path(data_in, "Plots"), recursive = TRUE, showWarnings = FALSE)
+for (d in c("Plots", "Plots/Interactive", "diff_expression")) {
+  dir.create(file.path(data_in, d), recursive = TRUE, showWarnings = FALSE)
+}
 

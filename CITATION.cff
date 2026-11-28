@@ -21,6 +21,7 @@ authors:
     given-names: "Jesper V."
     affiliation: "Novo Nordisk Foundation Center for Protein Research, Department of Cellular and Molecular Medicine, Faculty of Health and Medical Sciences, University of Copenhagen, Denmark; Copenhagen Center for Glycocalyx Research, Department of Cellular and Molecular Medicine, Faculty of Health and Medical Sciences, University of Copenhagen, Denmark"
 title: 'Analysis Pipeline for "Sequential cellular fractionation strategy for sensitive profiling of subcellular proteome and phosphoproteome dynamics"'
+license: MIT
 version: 2.0.0
 date-released: 2026-11-28
 url: "https://github.com/Nirtak911/Sub001_U2OS_publish"

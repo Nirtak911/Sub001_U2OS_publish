@@ -10,6 +10,8 @@ library(limma)
 library(htmlwidgets)
 library(stringi)
 library(ggprism)
+# Hmisc is used by mean_sdl() for the error bars (listed so that renv records it)
+stopifnot(requireNamespace("Hmisc", quietly = TRUE))
 
 ## Load data---------------------
 input <- file.path(data_in, "/03_imputeFRsep_data_log2.csv")

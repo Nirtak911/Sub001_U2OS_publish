@@ -10,6 +10,8 @@ library(limma)
 library(htmlwidgets)
 library(stringi)
 library(ggprism)
+# Hmisc is used by mean_sdl() for the error bars (listed so that renv records it)
+stopifnot(requireNamespace("Hmisc", quietly = TRUE))
 
 ## Load data---------------------
 input <- file.path(data_in, "/03_imputeFRsep_data_log2.csv")
@@ -63,7 +65,7 @@ for (df in t1_protein_IDs_list) {
     stat_summary(geom = "errorbar", fun.data = mean_sdl, fun.args = list(mult = 1), 
                  width = 0.2, colour = "black", linewidth = 0.9) + 
     geom_jitter(aes(colour = treatment), width = 0.2, size = 4, alpha = 0.6) + 
-    facet_wrap(~ fraction, scales = "free_x", nrow = 1, switch = "x") +
+    facet_wrap(~ fraction, scales = "free_x", nrow = 1, strip.position = "bottom") +
     scale_x_discrete(labels = function(x) df$fraction[match(x, df$r_condition)]) +
     scale_y_continuous(limits = c(0, 10000), expand = c(0, 0)) +
     theme_prism(base_size = 14) +

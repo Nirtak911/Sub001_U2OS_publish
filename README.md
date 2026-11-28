@@ -6,7 +6,8 @@ The pipeline is fully unsupervised: it quantifies changes in the relative distri
 
 > **Status of this repository (to be completed before archiving):**
 > - Example dataset and vignette: added (Proteome only), rendered as `vignettes/example_workflow.html`
-> - Archived release on Zenodo: DOI `[10.5281/zenodo.XXXXXXX]`
+> - Input data and result tables on Zenodo: DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)
+> - Archived code release on Zenodo: DOI `[CODE-DOI]`
 
 ---
 
@@ -49,14 +50,16 @@ Main packages: tidyverse, protti, limma, DAPAR / imp4p, qvalue, pheatmap, cluste
 
 The scripts expect the following files (not included in the repository, see `.gitignore`):
 
-| File | Description | Source |
+| File | Description | Zenodo file |
 |---|---|---|
-| `raw/Proteome/20250221_110126_ProteinGroups_KS_normal (Normal).tsv` | Spectronaut protein group report (directDIA+, fractions searched separately and combined) | Zenodo `[DOI]` |
-| `raw/Phospho/20250220_171101_PTM Report_normal_KS (Normal).tsv` | Spectronaut PTM site report | Zenodo `[DOI]` |
-| `raw/Subcell_markers_selected.csv` | Curated subcellular marker proteins (Supplementary Table S1) | Zenodo `[DOI]` |
-| `raw/annotations_hpa_2024-03-05.csv` | DeepLoc subcellular localization predictions per protein group (column `deeploc_single`), used to annotate heatmaps and dimensionality reduction plots | Zenodo `[DOI]` |
+| `raw/Proteome/20250221_110126_ProteinGroups_KS_normal (Normal).tsv` | Spectronaut protein group report (directDIA+, fractions searched separately and combined) | `input_Proteome.zip` |
+| `raw/Phospho/20250220_171101_PTM Report_normal_KS (Normal).tsv` | Spectronaut PTM site report | `input_Phospho.zip` |
+| `raw/Subcell_markers_selected.csv` | Curated subcellular marker proteins (Supplementary Table S1) | `input_annotations.zip` |
+| `raw/annotations_hpa_2024-03-05.csv` | DeepLoc 2.0 subcellular localization prediction per protein group (columns `PG.ProteinGroups`, `PG.Genes`, `deeploc_single`), used to annotate heatmaps and dimensionality reduction plots | `input_annotations.zip` |
 
-The raw MS data are available from ProteomeXchange via PRIDE (PXD067608).
+These files and the main result tables of both pipelines are archived on Zenodo (DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)). Each ZIP file unpacks into the folder structure above; unpack them in the project root. The `results_*.zip` files contain the result tables reported in the manuscript (in `data/Proteome/` and `data/Phospho/`).
+
+The raw MS data and the Spectronaut search results are available from ProteomeXchange via PRIDE (PXD067608).
 
 The folders can be changed without editing the scripts by setting environment variables (see `script/*/00_path_definitions.R`):
 
@@ -216,4 +219,4 @@ Sub001_U2OS_publish/
 
 ## Citation and license
 
-If you use this workflow, please cite the protocol (Stuber et al., Nature Protocols, in revision) and the archived code release (Zenodo DOI `[10.5281/zenodo.XXXXXXX]`); see `CITATION.cff`. The code is released under the license in `LICENSE.md`.
+If you use this workflow, please cite the protocol (Stuber et al., Nature Protocols, in revision), the archived code release (Zenodo DOI `[CODE-DOI]`) and, if you use the data, the data record (Zenodo DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)); see `CITATION.cff`. The code is released under the license in `LICENSE.md`.

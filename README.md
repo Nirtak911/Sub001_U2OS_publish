@@ -4,10 +4,10 @@ This repository contains the R scripts used to analyse the subcellular proteome 
 
 The pipeline is fully unsupervised: it quantifies changes in the relative distribution of proteins and phosphosites across fractions between conditions, but does not assign proteins to compartments or predict their localization.
 
-> **Status of this repository (to be completed before archiving):**
-> - Example dataset and vignette: added (Proteome only), rendered as `vignettes/example_workflow.html`
-> - Input data and result tables on Zenodo: DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)
-> - Archived code release on Zenodo: DOI `[CODE-DOI]`
+**Data availability**
+- Input data and result tables: Zenodo, DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)
+- Raw MS data and Spectronaut search results: ProteomeXchange / PRIDE, [PXD067608](https://www.ebi.ac.uk/pride/archive/projects/PXD067608)
+- Example dataset and vignette (Proteome): `example_data/` and `vignettes/example_workflow.html`, see [Example dataset and vignette](#example-dataset-and-vignette)
 
 ---
 
@@ -219,4 +219,4 @@ Sub001_U2OS_publish/
 
 ## Citation and license
 
-If you use this workflow, please cite the protocol (Stuber et al., Nature Protocols, in revision), the archived code release (Zenodo DOI `[CODE-DOI]`) and, if you use the data, the data record (Zenodo DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)); see `CITATION.cff`. The code is released under the license in `LICENSE.md`.
+If you use this workflow, please cite the protocol (Stuber et al., Nature Protocols, in revision), the archived code release on Zenodo (linked under "Related works" of the data record) and, if you use the data, the data record (Zenodo DOI [10.5281/zenodo.24631325](https://doi.org/10.5281/zenodo.24631325)); see `CITATION.cff`. The code is released under the license in `LICENSE.md`.
